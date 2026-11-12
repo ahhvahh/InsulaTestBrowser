@@ -27,7 +27,7 @@ As ações de interação podem contemplar localizar elemento, clicar, digitar, 
 ## Regras de acesso e validação
 
 - Interface local por UDS é a preferência arquitetural. Transporte, autenticação e serialização **ainda não foram aprovados**.
-- Operações de sessão DEVE(M) validar autorização e posse da sessão, inclusive quando houver múltiplos clientes.
+- Operações de sessão DEVEM validar autorização e posse da sessão, inclusive quando houver múltiplos clientes.
 - `session_id` é opaco; nunca equivale a permissão de acesso por si só.
 - A URL DEVE passar por política de destino e restrições de rede; validar redirecionamentos e DNS.
 - Screenshots e downloads DEVEM usar `artifact_id`/chave interna; não aceitar caminhos arbitrários de escrita ou leitura no host.
