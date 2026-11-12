@@ -11,7 +11,7 @@ Permitir que um cliente solicite uma sessão Chromium isolada e execute operaç�
 
 | Operação lógica | Entrada mínima proposta | Resultado proposto |
 | --- | --- | --- |
-| `create_session` | Política de imagem, viewport, limites/timeout | `session_id` e estado |
+| `create_session` | Nome do perfil configurado (ou perfil padrão), viewport, limites/timeout | `session_id` e estado |
 | `get_session` | `session_id` | Estado, versão de imagem e tempos |
 | `list_sessions` | Filtros de estado/paginação | Lista resumida de sessões |
 | `navigate` | `session_id`, URL, timeout | Estado de navegação e metadados não sensíveis |
@@ -19,7 +19,8 @@ Permitir que um cliente solicite uma sessão Chromium isolada e execute operaç�
 | `interact` | `session_id`, ação tipada/elemento | Resultado ou erro |
 | `end_session` | `session_id` | Resultado do encerramento/limpeza |
 | `list_images` | Filtros opcionais | Imagens validadas e versões |
-| `build_image` | Modo `latest`/`pinned`, versão/origem | Referência e digest de imagem |
+| `build_image` | Perfil de preparação e modo `latest`/`pinned`, versão/origem | Referência e digest de imagem |
+| `save_prepared_image` | ID do contêiner de preparação, perfil e nome de destino autorizado | Referência/digest OCI após verificação |
 | `purge_expired` | Política administrativa | Resumo de remoções e falhas |
 
 As ações de interação podem contemplar localizar elemento, clicar, digitar, preencher formulário e extrair HTML. Os seletores e protocolos serão especificados depois da escolha do canal CDP.
@@ -32,6 +33,8 @@ As ações de interação podem contemplar localizar elemento, clicar, digitar, 
 - A URL DEVE passar por política de destino e restrições de rede; validar redirecionamentos e DNS.
 - Screenshots e downloads DEVEM usar `artifact_id`/chave interna; não aceitar caminhos arbitrários de escrita ou leitura no host.
 - `end_session` DEVE ser idempotente; repetir a solicitação não pode recriar recursos.
+- O serviço DEVE validar todas as operações de imagem e montagem contra os perfis permitidos no `config.yaml`; nunca aceitar montar arbitrariamente caminhos do host por meio de um cliente.
+- `save_prepared_image` NÃO DEVE aceitar contêineres que pertençam a sessões de navegação.
 - Não gravar credenciais, cookies ou conteúdo de formulários em logs.
 
 ## Classes de erros previstas
@@ -54,5 +57,7 @@ Permanecem pendentes formato do payload, códigos de erro na interface concreta,
 ## Referências
 
 - [Arquitetura](../arquitetura/ARQ-001-visao-geral.md)
+- [Arquivo de configuração](../referencia/REF-001-configuracao.md)
+- [Preparação de imagem](../fluxos/FLUX-002-preparacao-imagem.md)
 - [Fluxo](../fluxos/FLUX-001-ciclo-de-vida.md)
 - [Segurança](../arquitetura/ARQ-002-seguranca.md)
