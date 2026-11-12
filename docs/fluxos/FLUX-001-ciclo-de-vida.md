@@ -11,7 +11,8 @@ Orquestrar a criação, a navegação, a finalização e o descarte de um contê
 ## Pré-condições
 
 - Serviço Go autorizado a acessar o Podman Rootless por socket Unix.
-- Imagem Chromium verificada e disponível no cache ou criada por política de versão.
+- `config.yaml` localizado e validado (perfis, SQLite, acesso e retenção).
+- Imagem Chromium verificada e disponível no cache ou criada por política de versão. Para preparação e snapshot de novas imagens, consultar [FLUX-002](FLUX-002-preparacao-imagem.md).
 - Recursos de CPU, RAM, processos, rede e armazenamento disponíveis.
 - Compatibilidade do sandbox Chromium verificada para a imagem e o host.
 
@@ -67,9 +68,12 @@ O trecho Serviço Go → Chromium representa um **canal conceitual**. O transpor
 4. Ao reiniciar, listar contêineres gerenciados, confrontar com SQLite e encerrar órfãos ou retomar estados conforme política. Não presumir recuperação automática de páginas.
 5. Se remover um contêiner ou arquivo falhar, manter informação suficiente para repetir a exclusão e emitir log técnico sem segredo.
 6. O tempo máximo de sessão e os prazos de retenção são independentes.
+7. Uma sessão de navegação não pode ser transformada em imagem reutilizável; somente contêineres de preparação controlados têm essa opção.
 
 ## Referências
 
 - [Modelo SQLite](../persistencia/PERS-001-sessoes-sqlite.md)
+- [Arquivo de configuração](../referencia/REF-001-configuracao.md)
+- [Preparação de imagem](FLUX-002-preparacao-imagem.md)
 - [Contrato de operações](../contratos/CONTR-001-operacoes-de-navegacao.md)
 - [Segurança](../arquitetura/ARQ-002-seguranca.md)
