@@ -15,7 +15,7 @@ Distribuir Chromium dentro de imagens OCI. Oferecer seleção `latest`, `pinned`
 - `pinned`: exigir versão/revisão fixa resolvida por origem confiável;
 - `cached`: reutilizar imagem já validada pelo digest, inclusive sem acesso externo.
 
-Uma imagem validada pode servir a muitas sessões, mas seus perfis e volumes mutáveis nunca serão compartilhados. A criação de imagens ocorre a partir de base/Containerfile controlados, não de sessões que navegaram na internet.
+Uma imagem validada pode servir a muitas sessões, mas seus perfis e volumes mutáveis nunca serão compartilhados. Além do `Containerfile`, um perfil de preparação em `config.yaml` pode iniciar um contêiner limpo, configurá-lo e salvar uma imagem OCI via `podman commit`. Nunca capturar uma sessão que navegou na internet.
 
 ## Consequências
 
@@ -28,5 +28,7 @@ Uma imagem validada pode servir a muitas sessões, mas seus perfis e volumes mut
 ## Referências
 
 - [Imagens e atualização](../arquitetura/ARQ-003-imagens-chromium.md)
+- [Configuração dos perfis](../referencia/REF-001-configuracao.md)
+- [Fluxo de preparação](../fluxos/FLUX-002-preparacao-imagem.md)
 - [Persistência](../persistencia/PERS-001-sessoes-sqlite.md)
 - [Snapshot Debian](https://snapshot.debian.org/)
