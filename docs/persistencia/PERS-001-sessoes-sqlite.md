@@ -5,7 +5,7 @@
 
 ## Objetivo
 
-Persistir o estado operacional mínimo para gerenciar contêineres, rastrear imagens, aplicar retenção e reconciliar sessões após falha do serviço. O SQLite permanece no host, fora do alcance dos contêineres.
+Persistir o estado operacional mínimo para gerenciar contêineres, rastrear imagens, aplicar retenção e reconciliar sessões após falha do serviço. O SQLite permanece no host, fora do alcance dos contêineres. **O caminho físico do banco é definido por `database.path` no [config.yaml](../referencia/REF-001-configuracao.md).**
 
 ## Entidades propostas
 
@@ -17,6 +17,8 @@ Persistir o estado operacional mínimo para gerenciar contêineres, rastrear ima
 | `digest` | TEXT | Digest OCI imutável, único |
 | `chromium_version` | TEXT | Versão/revisão efetivamente incluída |
 | `source` | TEXT | Origem de construção, sem credenciais |
+| `profile_name` | TEXT NULL | Perfil de configuração utilizado para preparar/selecionar a imagem |
+| `creation_method` | TEXT NULL | Origem da imagem: construção ou snapshot de preparação; definição final sujeita a migração |
 | `created_at` | TEXT | Instante UTC em formato ISO 8601 |
 | `verified_at` | TEXT NULL | Última validação de segurança concluída |
 
@@ -72,5 +74,7 @@ Os valores são **padrões candidatos**, não configurações já implementadas.
 
 - [Ciclo de vida](../fluxos/FLUX-001-ciclo-de-vida.md)
 - [Decisão SQLite](../decisoes/DEC-002-sqlite.md)
+- [Configuração local](../referencia/REF-001-configuracao.md)
+- [Fluxo de preparação](../fluxos/FLUX-002-preparacao-imagem.md)
 - [SQLite WAL](https://www.sqlite.org/wal.html)
 - [SQLite — isolamento](https://www.sqlite.org/isolation.html)
