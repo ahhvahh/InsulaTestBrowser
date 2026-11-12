@@ -26,11 +26,19 @@ Não confundir o commit mais novo do Chromium com versão estável e atualizada 
 5. Registrar imagem pelo digest imutável; manter tag legível apenas como apelido.
 6. Criar novas sessões com a imagem selecionada. Não trocar navegador de sessões em andamento.
 
-## Imagens personalizadas
+## Perfis de criação e imagens personalizadas
 
-Imagens personalizadas PODEM ser criadas a partir de `Containerfile` e base permitida. NÃO DEVEM ser geradas capturando alterações de contêineres que já navegaram na web: perfis, cookies ou segredos poderiam ser incorporados à camada reutilizável.
+O arquivo [config.yaml](../referencia/REF-001-configuracao.md) centraliza a escolha do perfil:
 
-A limpeza das imagens DEVE considerar referências de sessões ativas; uma política de expurgo para imagens antigas será definida separadamente da retenção de sessões.
+- **Reuso de imagem** (`source: image`): uma imagem OCI validada é a origem para novos contêineres de navegação; não existe clonagem de cookies, cache ou perfil Chromium.
+- **Preparação de novo ambiente** (`source: prepare`): iniciar um contêiner separado de preparação, aplicar instruções locais previamente autorizadas e validar o navegador.
+- **Salvar imagem preparada** (`save_image.enabled: true`): capturar o filesystem do contêiner de preparação como nova imagem OCI reutilizável, registrando digest e proveniência. A imagem só pode ser disponibilizada depois das verificações de segurança.
+
+A captura de um contêiner iniciado é possível com **`podman commit`**. Por padrão, o Podman pausa o contêiner enquanto faz o commit e **não inclui conteúdo dos volumes montados**. A operação salva alterações de filesystem: não inclui o estado em memória dos processos, nem deve ser apresentada como retomada de uma sessão aberta. Ver [FLUX-002](../fluxos/FLUX-002-preparacao-imagem.md).
+
+O projeto **NÃO DEVE capturar sessões que já navegaram em sites**, porque cookies, credenciais e outros dados privados podem ter sido persistidos em arquivos ou camadas. Evitar introduzir segredos durante a preparação; uma limpeza posterior pode não garantir que dados antigos não apareçam em camadas da imagem.
+
+Imagens também PODEM ser criadas diretamente de um `Containerfile` e base aprovada. A limpeza das imagens DEVE considerar referências de sessões ativas; uma política de expurgo para imagens antigas será definida separadamente da retenção de sessões.
 
 ## Dados e auditoria
 
@@ -39,6 +47,9 @@ Guardar no SQLite identificação, digest, versão efetiva, origem, momento de c
 ## Referências
 
 - [Modelo SQLite](../persistencia/PERS-001-sessoes-sqlite.md)
+- [Configuração e perfis](../referencia/REF-001-configuracao.md)
+- [Fluxo de preparação](../fluxos/FLUX-002-preparacao-imagem.md)
+- [Podman commit](https://docs.podman.io/en/latest/markdown/podman-commit.1.html)
 - [Decisão de versões](../decisoes/DEC-003-versoes-chromium.md)
 - [Documentação Podman](https://docs.podman.io/en/stable/markdown/podman.1.html)
 - [Snapshots Debian](https://snapshot.debian.org/)
