@@ -11,9 +11,11 @@ Isolar cada navegação Chromium em um contêiner Podman Rootless separado, coma
 
 | Componente | Responsabilidade | Local |
 | --- | --- | --- |
-| Serviço InsulaTestBrowser (Go) | Orquestrar sessões, validar operações, aplicar políticas e recuperar execuções | Host, usuário sem privilégios |
+| Serviço InsulaTestBrowser (Go) | Carregar configuração, orquestrar sessões, validar operações, aplicar políticas e recuperar execuções | Host, usuário sem privilégios |
+| Arquivo `config.yaml` | Definir SQLite, acesso, credenciais por referência e perfis de imagem/preparação | Pasta do executável ou pasta indicada por argumento, host |
 | API Podman | Criar, inspecionar, parar e excluir contêineres; preparar imagens OCI | Socket Unix rootless, host |
 | Contêiner por sessão | Executar Chromium e um mecanismo de controle de navegação | Contêiner descartável |
+| Contêiner de preparação | Aplicar instruções aprovadas e permitir captura de imagem OCI reutilizável, sem navegar em sites de usuários | Contêiner isolado e temporário |
 | Chromium | Abrir páginas e executar operações por Chrome DevTools Protocol (CDP) | Dentro de cada contêiner |
 | SQLite | Estado, vínculos com contêineres/imagens, tempos e retenção | Host; nunca montado no contêiner |
 | Artefatos | Capturas, downloads e logs, sob políticas de expiração | Diretório privado, fora do perfil |
@@ -30,7 +32,7 @@ flowchart TD
     App --> Artefatos[Armazenamento de artefatos]
 ```
 
-A imagem base é reutilizável; o perfil Chromium, os diretórios de downloads e o armazenamento gravável de cada sessão **não** são compartilhados.
+A imagem base é reutilizável; o perfil Chromium, os diretórios de downloads e o armazenamento gravável de cada sessão **não** são compartilhados. O serviço seleciona o perfil por `config.yaml`: uma imagem existente gera um novo contêiner descartável; a preparação de ambiente ocorre em contêiner próprio, separado das sessões de navegação.
 
 ## Limites e interfaces
 
@@ -39,6 +41,8 @@ A imagem base é reutilizável; o perfil Chromium, os diretórios de downloads e
 - O transporte do comando de navegação até Chromium (CDP por pipe, agente interno ou outro meio sem porta pública de depuração) permanece **não verificado** e precisa de protótipo.
 - Acesso a sites depende de política de saída de rede. O contêiner não recebe acesso irrestrito a redes privadas/host por padrão.
 - O SQLite é banco de metadados, não local de armazenamento de cookies, credenciais ou dados de páginas.
+- O binário localiza `config.yaml` ao lado do executável ou na pasta especificada em `--config-dir`. O arquivo indica o caminho do SQLite, controles de acesso, referências de credenciais, montagens e perfis de criação ou clonagem a partir de imagem.
+- A imagem salva a partir de um contêiner de **preparação** não pode incluir dados de navegação nem segredos. As montagens das sessões continuam exclusivas.
 
 ## Implantação desejada
 
@@ -48,6 +52,8 @@ Linux/Debian 13, Go, Podman em modo rootless e runtime OCI compatível; usuário
 
 - [Segurança](ARQ-002-seguranca.md)
 - [Imagens Chromium](ARQ-003-imagens-chromium.md)
+- [Configuração centralizada](../referencia/REF-001-configuracao.md)
+- [Preparação de imagem](../fluxos/FLUX-002-preparacao-imagem.md)
 - [Persistência](../persistencia/PERS-001-sessoes-sqlite.md)
 - [Fluxo de sessão](../fluxos/FLUX-001-ciclo-de-vida.md)
 - [Documentação do Podman](https://docs.podman.io/en/stable/markdown/podman.1.html)
