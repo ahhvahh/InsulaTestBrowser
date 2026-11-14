@@ -21,6 +21,7 @@ O InsulaTestBrowser é um serviço Go que controla o Podman Rootless para inicia
 | Motor de interpretação Starlark | [ARQ-004 — Motor Starlark](arquitetura/ARQ-004-motor-starlark.md) |
 | API disponível aos scripts | [CONTR-002 — API Starlark](contratos/CONTR-002-api-starlark.md) |
 | Validação e administração de execuções | [CONTR-003 — Administração](contratos/CONTR-003-administracao-scripts.md) |
+| Testes Starlark de navegação | [TEST-001 — Smoke tests](testes/TEST-001-navegacao-starlark.md) |
 | Exemplo de coleta de PDFs | [EX-001 — Coleta paginada](exemplos/EX-001-coleta-pdfs-starlark.md) |
 | Prompt de geração de scripts por LLM | [PROMPT-001 — Gerador Starlark](prompts/PROMPT-001-geracao-starlark.md) |
 | Escolha de Podman Rootless | [DEC-001 — Isolamento](decisoes/DEC-001-isolamento-rootless.md) |
@@ -46,6 +47,7 @@ O InsulaTestBrowser é um serviço Go que controla o Podman Rootless para inicia
 | `DEC` | Decisão |
 | `REF` | Referência de configuração |
 | `INTF-TERM` | Interface de terminal |
+| `TEST` | Testes, cenários de aceite e evidências |
 | `EX` | Exemplo orientativo |
 | `PROMPT` | Instruções para geração assistida por LLM |
 
