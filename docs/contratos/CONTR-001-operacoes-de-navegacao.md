@@ -50,6 +50,10 @@ As ações de interação podem contemplar localizar elemento, clicar, digitar, 
 | `runtime_failure` | Falha em Podman, armazenamento ou SQLite |
 | `timeout` | Tempo máximo da operação atingido |
 
+## Proposta da interface Starlark
+
+Os **33 métodos de script** possuem assinaturas, entradas, retornos e limites propostos em [CONTR-002](CONTR-002-api-starlark.md). Os **5 comandos administrativos** (`validate_script`, `run_script`, `get_script_status`, `cancel_script`, `get_script_results`) estão em [CONTR-003](CONTR-003-administracao-scripts.md). Os nomes são proposta de contrato: não representam endpoints ou funções Go existentes. Essas camadas não alteram as operações conceituais de imagens e sessões desta CONTR-001.
+
 ## Lacunas intencionais
 
 Permanecem pendentes formato do payload, códigos de erro na interface concreta, modelo de permissão, transporte do CDP e mapeamento final para CLI, biblioteca Go ou MCP. Nenhuma assinatura foi estabelecida.

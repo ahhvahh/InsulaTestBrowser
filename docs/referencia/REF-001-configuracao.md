@@ -54,6 +54,18 @@ containers:
         name: localhost/insula-test-browser:prepared
       mounts: []
 
+scripts:                       # proposta de configuração do executor; não implementada
+  enabled: false               # somente habilitar após validação de sandbox/canal CDP
+  api_version: 1
+  max_concurrent: 2
+  max_steps: 1000000
+  max_duration: 30m
+  max_pages: 100
+  max_downloads: 500
+  max_download_bytes: 52428800
+  max_dom_nodes: 500
+  allow_inline_source: false
+
 sessions:
   max_concurrent: 5
   max_duration: 30m
@@ -79,8 +91,11 @@ sessions:
 | `containers.profiles.*.mounts` | Política declarativa de montagens; nunca compartilhar perfil Chromium, segredos ou dados de sessão |
 | `containers.profiles.*.save_image` | Autorizar snapshot OCI do contêiner de preparação depois de sanitização e validação |
 | `sessions` | Concorrência, limite de execução e prazos de retenção |
+| `scripts` | Regras do executor Starlark: habilitação, versão da API, limites de passos/tempo/páginas/downloads/DOM e permissão de fonte inline (propostas) |
 
 O formato definitivo de `container-setup.yaml`, regras de montagem, restrições de clientes e extensões de autenticação serão especificados quando a interface estiver pronta. **Não existe execução arbitrária de shell implícita a partir do YAML de exemplo.**
+
+Os limites efetivos do script DEVEM ser os mais restritivos entre `scripts`, perfil, usuário e solicitação externa. Os novos campos são candidatos de esquema, ainda não validados ou implementados; a interface detalhada está em [ARQ-004](../arquitetura/ARQ-004-motor-starlark.md) e [CONTR-003](../contratos/CONTR-003-administracao-scripts.md).
 
 ## Segurança e validação
 

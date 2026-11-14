@@ -11,6 +11,7 @@ Isolar cada navegação Chromium em um contêiner Podman Rootless separado, coma
 
 | Componente | Responsabilidade | Local |
 | --- | --- | --- |
+| Executor Starlark supervisionado | Interpreta scripts de navegação gerados por LLM, em processo auxiliar com limites e somente a API permitida | Host, processo restrito |
 | Serviço InsulaTestBrowser (Go) | Carregar configuração, orquestrar sessões, validar operações, aplicar políticas e recuperar execuções | Host, usuário sem privilégios |
 | Arquivo `config.yaml` | Definir SQLite, acesso, credenciais por referência e perfis de imagem/preparação | Pasta do executável ou pasta indicada por argumento, host |
 | API Podman | Criar, inspecionar, parar e excluir contêineres; preparar imagens OCI | Socket Unix rootless, host |
@@ -33,6 +34,10 @@ flowchart TD
 ```
 
 A imagem base é reutilizável; o perfil Chromium, os diretórios de downloads e o armazenamento gravável de cada sessão **não** são compartilhados. O serviço seleciona o perfil por `config.yaml`: uma imagem existente gera um novo contêiner descartável; a preparação de ambiente ocorre em contêiner próprio, separado das sessões de navegação.
+
+## Execução de scripts (proposta)
+
+O serviço poderá executar arquivos Starlark `.star` que chamam os módulos `browser`, `artifacts` e `job`, sem conceder acesso geral ao sistema operacional. A LLM gera o script a partir de uma URL e de inspeções reais do DOM; não controla diretamente o Podman nem participa da execução. Limites, cancelamento e limpeza pertencem ao serviço Go. Consulte [ARQ-004](ARQ-004-motor-starlark.md), [CONTR-002](../contratos/CONTR-002-api-starlark.md) e [PROMPT-001](../prompts/PROMPT-001-geracao-starlark.md). Nenhum desses componentes está implementado.
 
 ## Limites e interfaces
 
