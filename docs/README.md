@@ -24,6 +24,7 @@ O InsulaTestBrowser é um serviço Go que controla o Podman Rootless para inicia
 | Catálogo de arquivos temporários e resultado incremental | [CONTR-004 — Artefatos e resultados](contratos/CONTR-004-artefatos-resultados.md) |
 | Testes Starlark de navegação | [TEST-001 — Smoke tests](testes/TEST-001-navegacao-starlark.md) |
 | Exemplo de coleta de PDFs | [EX-001 — Coleta paginada](exemplos/EX-001-coleta-pdfs-starlark.md) |
+| Exemplo de resposta JSON da sessão | [EX-002 — Resultado de sessão](exemplos/EX-002-resultado-sessao.json) |
 | Prompt de geração de scripts por LLM | [PROMPT-001 — Gerador Starlark](prompts/PROMPT-001-geracao-starlark.md) |
 | Escolha de Podman Rootless | [DEC-001 — Isolamento](decisoes/DEC-001-isolamento-rootless.md) |
 | Escolha de SQLite | [DEC-002 — Persistência](decisoes/DEC-002-sqlite.md) |
