@@ -37,7 +37,7 @@ CHAMADA-103-01 a CHAMADA-103-03 são identificadores locais do encadeamento cont
 
 ## Estrutura obrigatória para comportamento
 
-O último tópico é **Spec Rules**, contendo um único bloco YAML. Sua única chave raiz é o ID do documento. Abaixo dela: formato, versao, modulo, estado, entrada, saida, fluxo e excecoes.
+O último tópico é **Spec Rules**, contendo um único bloco YAML. Sua única chave raiz é o ID do documento. Abaixo dela: formato, versao, tipo_documento, modulo e estado. Contratos definem dados; fluxos definem execução.
 
 - Estado documental: `proposta`, `em refinamento` ou `refinado`. Implementação é uma dimensão separada.
 - Entrada é um objeto. Para uma entrada, usar nome e doc. Para várias, usar nomes como chaves e doc dentro de cada nome; não misturar as duas formas. Nunca usar lista em entrada.
@@ -53,7 +53,7 @@ O último tópico é **Spec Rules**, contendo um único bloco YAML. Sua única c
 - Regras por campo são declarativas; a execução é explícita nos passos, evitando recursão automática.
 - Não usar aliases, anchors, tags ou chaves duplicadas. A ordem da lista é a ordem de execução.
 
-O contrato pode encapsular o fluxo por referência, como CONTR-103 faz com FLUX-0201. Dessa forma o contrato representa sua sequência de chamada e resposta, enquanto a regra de remoção tem uma única definição. Os atores intermediários são declarados para permitir a expansão documental da chamada.
+O contrato apenas referencia o fluxo responsável pelas regras. Atores, sequência, chamadas e efeitos pertencem ao documento FLUX/ALG.
 
 ## Coexistência e validação
 
@@ -90,3 +90,9 @@ O segundo exemplo é fictício. Listas continuam adequadas a passos ordenados, c
 ## Atualização do plugin
 
 A proposta de atualização está em [plugin-update.json](plugin-update.json), com os arquivos alterados, identidade e release-base verificadas. Publicação do plugin pendente: requer empacotamento local indisponível nesta sessão. Não apresentar a versão preparada como instalada.
+
+## Separação por tipo documental
+
+CONTR define campos, tipos, obrigatoriedade, restrições, estruturas e referências declarativas às regras. Não exige atores, root, chamadas, passos, efeitos ou retorno de execução. FLUX/ALG define entrada e saída como objetos, atores, sequência, decisões, chamadas, efeitos e tratamento das exceções. Referencia os contratos sem copiar seus campos.
+
+O schema deve selecionar as exigências conforme tipo_documento. O pacote de atualização do plugin anteriormente preparado contém um schema inicial de assinatura de fluxo; sua adequação a contratos permanece pendente antes de publicar o plugin.

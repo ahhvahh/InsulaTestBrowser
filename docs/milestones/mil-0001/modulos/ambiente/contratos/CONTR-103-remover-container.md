@@ -4,13 +4,13 @@
 
 [Milestone MIL-0001](../../../../mil-0001.md).
 
-# CONTR-103 — Remover contêiner
+# CONTR-103 — Dados da remoção de contêiner
 
 **Estado:** em refinamento. **Versão aprovada:** nenhuma. **Módulo:** ambiente.
 
-## Porta pública
+## Objetivo
 
-Parar e remover somente o recurso rotulado com a sessão; ausência prévia é sucesso idempotente.
+Definir a solicitação, o resultado e a falha da remoção. Este arquivo agrupa três estruturas com IDs preservados: CONTR-103, CONTR-104 e CONTR-105. A execução pertence ao [FLUX-0201](../fluxos/FLUX-0201-remover-container.md).
 
 ### CONTR-103 — Entrada
 
@@ -32,9 +32,9 @@ Parar e remover somente o recurso rotulado com a sessão; ausência prévia é s
 
 ## Regras e falhas
 
-IDs não vazios; o container_id foi associado à session_id pelo serviço. Adaptador verifica rótulo real antes de remover.
+Os identificadores são textos obrigatórios e não vazios. A resposta contém o identificador da sessão e uma confirmação booleana. A falha contém um código textual sanitizado.
 
-Aplicação explícita no [fluxo](../fluxos/FLUX-0201-remover-container.md). Campos de saída são montados pelo provedor e verificados pelo chamador. Falha usa code fixo sanitizado; nunca carrega payload da página ou segredo. Tipos externos inválidos devem ser rejeitados na entrada antes de operações dependentes do tipo. Não há chamada recursiva por referência de campo.
+As regras dos campos referenciam [FLUX-0201](../fluxos/FLUX-0201-remover-container.md) de forma declarativa. A ordem de validação, a verificação do vínculo com o contêiner e o tratamento de falhas ficam definidos nesse fluxo.
 
 ## Acesso
 
@@ -54,19 +54,19 @@ Este documento usa **Spec Rules 0.2.0**, proposta local da MIL-0001. A versão i
 CONTR-103:
   formato: "a-bioma-spec-rules"
   versao: "0.2.0"
+  tipo_documento: "contrato"
   modulo: "ambiente"
   estado: "em refinamento"
   implementacao: "nao implementado"
-  objetivo: "Parar e remover somente o contêiner associado à sessão; ausência prévia é sucesso idempotente."
+  objetivo: "Definir solicitação, resultado e falha da remoção de contêiner."
   acesso:
     tipo: "porta interna"
     contexto: "Injetado pelo serviço; IDs não concedem autorização."
-    politica: "Apenas chamadas públicas permitidas pela ARQ-005."
-  entrada:
-    nome: "solicitacao"
-    doc: "CONTR-103"
-  saida:
-    doc: "CONTR-104"
+    politica: "Chamadas públicas permitidas pela ARQ-005."
+  papeis:
+    entrada: "CONTR-103"
+    saida: "CONTR-104"
+    falha: "CONTR-105"
   contratos:
     CONTR-103:
       nome: "EntradaRemoverConteiner"
@@ -107,59 +107,14 @@ CONTR-103:
           obrigatorio: true
           regras:
             - "@[ambiente](FLUX-0201)"
-  regras:
-    - "Campos têm aplicação explícita pelo fluxo; referências declarativas não executam chamadas nem criam recursão."
-    - "Resposta normal preserva session_id e confirma removed=true."
-    - "Código de falha é sanitizado; não inclui dados da página nem segredos."
-  fluxo:
-    atores:
-      - ator: "chamador"
-        descricao: "Caso de uso autorizado que consome a porta."
-      - ator: "ambiente"
-        descricao: "Módulo que valida o pedido e adapta a operação."
-      - ator: "podman"
-        descricao: "Runtime rootless que administra o recurso."
-    root:
-      - id: "CHAMADA-103-01"
-        acao: "chamar"
-        de: "chamador"
-        para: "ambiente"
-        descricao: "Executar o fluxo encapsulado com o contrato de entrada."
-        doc: "@[ambiente](FLUX-0201)"
-        argumentos:
-          solicitacao:
-            caminho: "entrada.solicitacao"
-        guardar_em: "variaveis.resultado"
-        erros:
-          - excecao: "@[ambiente](EXC-0201)"
-            guardar_em: "falhas.remocao"
-            passos:
-              - id: "CHAMADA-103-02"
-                acao: "falhar"
-                de: "ambiente"
-                para: "chamador"
-                contrato: "CONTR-105"
-                excecao: "@[ambiente](EXC-0201)"
-                dados:
-                  caminho: "falhas.remocao"
-      - id: "CHAMADA-103-03"
-        acao: "retornar"
-        de: "ambiente"
-        para: "chamador"
-        contrato: "CONTR-104"
-        valor:
-          caminho: "variaveis.resultado"
-  excecoes:
-    - doc: "@[ambiente](EXC-0201)"
-      contrato: "@[ambiente](CONTR-105)"
-  efeitos:
-    - "Parar e remover o contêiner pertencente à sessão, conforme o fluxo encapsulado."
-  criterios:
-    - "Entrada inválida não aciona remoção."
-    - "Ausência prévia é sucesso idempotente."
-    - "Vínculo incompatível não permite remover outro contêiner."
-    - "Falha do runtime ou resposta incompatível produz CONTR-105."
+  comportamento:
+    doc: "@[ambiente](FLUX-0201)"
+    relacao: "Define validação e execução; referência declarativa."
+  restricoes:
+    - "Identificadores obrigatórios e não vazios."
+    - "Resposta preserva session_id e confirma removed=true."
+    - "Falha contém somente código sanitizado."
   pendencias:
-    - "Proposta do formato piloto; schema e migração geral ainda pendentes."
-    - "Implementação do adaptador e testes de integração pendentes."
+    - "Schema específico de contrato e migração geral pendentes."
+    - "Sem implementação comprovada ou versão aprovada."
 ```
