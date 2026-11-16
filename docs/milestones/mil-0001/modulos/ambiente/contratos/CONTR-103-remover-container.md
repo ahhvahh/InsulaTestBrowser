@@ -43,17 +43,17 @@ Porta interna do serviço Go. O ponto de composição injeta o adaptador e o con
 
 ## Formato piloto
 
-Este documento usa **Spec Rules 0.1.0**, proposta local da MIL-0001. A versão identifica o novo formato, não uma release do plugin nem compatibilidade com o schema SDD 2.0. As referências abreviadas são resolvidas pelo [catálogo do piloto](../../../referencia/REF-003-spec-rules.md). Estado documental: **em refinamento**; implementação não comprovada.
+Este documento usa **Spec Rules 0.2.0**, proposta local da MIL-0001. A versão identifica o novo formato, não uma release do plugin nem compatibilidade com o schema SDD 2.0. As referências abreviadas são resolvidas pelo [catálogo do piloto](../../../referencia/REF-003-spec-rules.md). Estado documental: **em refinamento**; implementação não comprovada.
 <a id="sdd"></a>
 <a id="spec-rules"></a>
 ## Spec Rules
 
-<!-- A-BIOMA-SPEC-RULES:0.1.0 -->
+<!-- A-BIOMA-SPEC-RULES:0.2.0 -->
 
 ```yaml
 CONTR-103:
   formato: "a-bioma-spec-rules"
-  versao: "0.1.0"
+  versao: "0.2.0"
   modulo: "ambiente"
   estado: "em refinamento"
   implementacao: "nao implementado"
@@ -63,25 +63,21 @@ CONTR-103:
     contexto: "Injetado pelo serviço; IDs não concedem autorização."
     politica: "Apenas chamadas públicas permitidas pela ARQ-005."
   entrada:
-    -
-      nome: "solicitacao"
-      doc: "CONTR-103"
+    nome: "solicitacao"
+    doc: "CONTR-103"
   saida:
-    -
-      doc: "CONTR-104"
+    doc: "CONTR-104"
   contratos:
     CONTR-103:
       nome: "EntradaRemoverConteiner"
       campos:
-        -
-          id: "CMP-1007"
+        - id: "CMP-1007"
           nome: "session_id"
           tipo: "@TIP-0100"
           obrigatorio: true
           regras:
             - "@[ambiente](FLUX-0201)"
-        -
-          id: "CMP-1008"
+        - id: "CMP-1008"
           nome: "container_id"
           tipo: "@TIP-0100"
           obrigatorio: true
@@ -90,15 +86,13 @@ CONTR-103:
     CONTR-104:
       nome: "SaidaRemoverConteiner"
       campos:
-        -
-          id: "CMP-1009"
+        - id: "CMP-1009"
           nome: "session_id"
           tipo: "@TIP-0100"
           obrigatorio: true
           regras:
             - "@[ambiente](FLUX-0201)"
-        -
-          id: "CMP-1010"
+        - id: "CMP-1010"
           nome: "removed"
           tipo: "@TIP-0102"
           obrigatorio: true
@@ -107,8 +101,7 @@ CONTR-103:
     CONTR-105:
       nome: "FalhaRemoverConteiner"
       campos:
-        -
-          id: "CMP-1011"
+        - id: "CMP-1011"
           nome: "code"
           tipo: "@TIP-0100"
           obrigatorio: true
@@ -120,18 +113,14 @@ CONTR-103:
     - "Código de falha é sanitizado; não inclui dados da página nem segredos."
   fluxo:
     atores:
-      -
-        ator: "chamador"
+      - ator: "chamador"
         descricao: "Caso de uso autorizado que consome a porta."
-      -
-        ator: "ambiente"
+      - ator: "ambiente"
         descricao: "Módulo que valida o pedido e adapta a operação."
-      -
-        ator: "podman"
+      - ator: "podman"
         descricao: "Runtime rootless que administra o recurso."
     root:
-      -
-        id: "CHAMADA-103-01"
+      - id: "CHAMADA-103-01"
         acao: "chamar"
         de: "chamador"
         para: "ambiente"
@@ -142,12 +131,10 @@ CONTR-103:
             caminho: "entrada.solicitacao"
         guardar_em: "variaveis.resultado"
         erros:
-          -
-            excecao: "@[ambiente](EXC-0201)"
+          - excecao: "@[ambiente](EXC-0201)"
             guardar_em: "falhas.remocao"
             passos:
-              -
-                id: "CHAMADA-103-02"
+              - id: "CHAMADA-103-02"
                 acao: "falhar"
                 de: "ambiente"
                 para: "chamador"
@@ -155,8 +142,7 @@ CONTR-103:
                 excecao: "@[ambiente](EXC-0201)"
                 dados:
                   caminho: "falhas.remocao"
-      -
-        id: "CHAMADA-103-03"
+      - id: "CHAMADA-103-03"
         acao: "retornar"
         de: "ambiente"
         para: "chamador"
@@ -164,8 +150,7 @@ CONTR-103:
         valor:
           caminho: "variaveis.resultado"
   excecoes:
-    -
-      doc: "@[ambiente](EXC-0201)"
+    - doc: "@[ambiente](EXC-0201)"
       contrato: "@[ambiente](CONTR-105)"
   efeitos:
     - "Parar e remover o contêiner pertencente à sessão, conforme o fluxo encapsulado."

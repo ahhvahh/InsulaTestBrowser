@@ -6,7 +6,7 @@
 
 # REF-003 — Spec Rules e referências abreviadas
 
-**Estado:** em refinamento. **Formato piloto:** a-bioma-spec-rules 0.1.0.
+**Estado:** em refinamento. **Formato piloto:** a-bioma-spec-rules 0.2.0.
 
 ## Decisão e escopo
 
@@ -40,8 +40,8 @@ CHAMADA-103-01 a CHAMADA-103-03 são identificadores locais do encadeamento cont
 O último tópico é **Spec Rules**, contendo um único bloco YAML. Sua única chave raiz é o ID do documento. Abaixo dela: formato, versao, modulo, estado, entrada, saida, fluxo e excecoes.
 
 - Estado documental: `proposta`, `em refinamento` ou `refinado`. Implementação é uma dimensão separada.
-- Entrada é uma lista de parâmetros nomeados e referências de contrato; aceita uma ou mais entradas.
-- Saída é lista de exatamente um contrato normal. Falhas ficam em excecoes.
+- Entrada é um objeto. Para uma entrada, usar nome e doc. Para várias, usar nomes como chaves e doc dentro de cada nome; não misturar as duas formas. Nunca usar lista em entrada.
+- Saída é um objeto com doc para exatamente um contrato normal. Nunca usar lista em saida. Falhas ficam em excecoes.
 - Contratos definidos no documento incluem campos, tipos, obrigatoriedade, IDs e regras. Referenciar outra definição não cria uma cópia.
 - Fluxo contém atores e root. Root é lista ordenada de passos com id, acao e descricao quando aplicável; os nomes humanos são descrições, não chaves dinâmicas de execução.
 - Cada chamada encapsulada informa doc, argumentos, guardar_em e tratamento das exceções expostas.
@@ -57,8 +57,36 @@ O contrato pode encapsular o fluxo por referência, como CONTR-103 faz com FLUX-
 
 ## Coexistência e validação
 
-Versão 0.1.0 é a primeira proposta deste novo formato. Ela não deve usar a marca A-BIOMA-SPEC:2.0 nem alegar aprovação pelo schema anterior. O marcador piloto é A-BIOMA-SPEC-RULES:0.1.0.
+Versão 0.2.0 é a primeira proposta deste novo formato. Ela não deve usar a marca A-BIOMA-SPEC:2.0 nem alegar aprovação pelo schema anterior. O marcador piloto é A-BIOMA-SPEC-RULES:0.2.0.
 
 O alias HTML sdd foi preservado para links já existentes; isso preserva navegação, não compatibilidade de parsers. Consumidores documentais antigos, inclusive as referências de FLUX-0100 à remoção, precisam reconhecer o novo formato ou permanecer explicitamente pendentes de migração. Chamadas existentes preservam a assinatura e os IDs.
 
 Nesta rodada houve conferência estrutural dos objetos usados para gerar o YAML e resolução das referências do piloto. Não houve validação por parser YAML nem por um JSON Schema novo. O gerador usa strings JSON entre aspas e indentação de mapas/listas, sem anchors. Schema, parser e migração dos demais documentos permanecem pendentes. Não há alteração no código do serviço.
+
+## Objetos de entrada e saída
+
+Uma entrada:
+
+```yaml
+entrada:
+  nome: "solicitacao"
+  doc: "@[ambiente](CONTR-103)"
+saida:
+  doc: "@[ambiente](CONTR-104)"
+```
+
+Várias entradas usam a mesma ordem lógica dos argumentos nomeados, sem depender da ordem das propriedades:
+
+```yaml
+entrada:
+  pedido:
+    doc: "CONTR-EXEMPLO-ENTRADA"
+  contexto:
+    doc: "CONTR-EXEMPLO-CONTEXTO"
+```
+
+O segundo exemplo é fictício. Listas continuam adequadas a passos ordenados, critérios e coleções; seu marcador deve acompanhar a primeira propriedade, por exemplo `- id: PAS-1006`, evitando linhas com um traço isolado.
+
+## Atualização do plugin
+
+A proposta de atualização está em [plugin-update.json](plugin-update.json), com os arquivos alterados, identidade e release-base verificadas. Publicação do plugin pendente: requer empacotamento local indisponível nesta sessão. Não apresentar a versão preparada como instalada.

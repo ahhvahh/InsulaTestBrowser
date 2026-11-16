@@ -52,17 +52,17 @@ Cobrir sucesso, rejeição antes de efeito, falha da dependência e resposta inc
 
 ## Formato piloto
 
-Este documento usa **Spec Rules 0.1.0**, proposta local da MIL-0001. A versão identifica o novo formato, não uma release do plugin nem compatibilidade com o schema SDD 2.0. As referências abreviadas são resolvidas pelo [catálogo do piloto](../../../referencia/REF-003-spec-rules.md). Estado documental: **em refinamento**; implementação não comprovada.
+Este documento usa **Spec Rules 0.2.0**, proposta local da MIL-0001. A versão identifica o novo formato, não uma release do plugin nem compatibilidade com o schema SDD 2.0. As referências abreviadas são resolvidas pelo [catálogo do piloto](../../../referencia/REF-003-spec-rules.md). Estado documental: **em refinamento**; implementação não comprovada.
 <a id="sdd"></a>
 <a id="spec-rules"></a>
 ## Spec Rules
 
-<!-- A-BIOMA-SPEC-RULES:0.1.0 -->
+<!-- A-BIOMA-SPEC-RULES:0.2.0 -->
 
 ```yaml
 FLUX-0201:
   formato: "a-bioma-spec-rules"
-  versao: "0.1.0"
+  versao: "0.2.0"
   modulo: "ambiente"
   estado: "em refinamento"
   implementacao: "nao implementado"
@@ -72,26 +72,20 @@ FLUX-0201:
     contexto: "Injetado pelo serviço; IDs não concedem autorização."
     politica: "Apenas chamadas públicas permitidas pela ARQ-005."
   entrada:
-    -
-      nome: "solicitacao"
-      doc: "@[ambiente](CONTR-103)"
+    nome: "solicitacao"
+    doc: "@[ambiente](CONTR-103)"
   saida:
-    -
-      doc: "@[ambiente](CONTR-104)"
+    doc: "@[ambiente](CONTR-104)"
   fluxo:
     atores:
-      -
-        ator: "chamador"
+      - ator: "chamador"
         descricao: "Caso de uso autorizado que consome a porta."
-      -
-        ator: "ambiente"
+      - ator: "ambiente"
         descricao: "Módulo que valida o pedido e adapta a operação."
-      -
-        ator: "podman"
+      - ator: "podman"
         descricao: "Runtime rootless que administra o recurso."
     root:
-      -
-        id: "PAS-1006"
+      - id: "PAS-1006"
         acao: "validar"
         de: "ambiente"
         para: "ambiente"
@@ -99,8 +93,7 @@ FLUX-0201:
         condicao:
           descricao: "session_id e container_id estão presentes, são textos não vazios e o vínculo foi autorizado pelo serviço; verificar tipos antes de interpretar valores."
           dados:
-            -
-              caminho: "entrada.solicitacao"
+            - caminho: "entrada.solicitacao"
         valido: "continuar"
         invalido:
           nome: "Entrada inválida"
@@ -111,17 +104,15 @@ FLUX-0201:
           dados:
             literal:
               code: "invalid_request"
-      -
-        id: "PAS-1008"
+      - id: "PAS-1008"
         acao: "operar"
         de: "ambiente"
         para: "podman"
         descricao: "Parar e remover somente recurso com rótulo correspondente à sessão. O adaptador consulta o estado real e verifica o rótulo antes do efeito; ausência prévia retorna removed=true. Se houver mismatch, falhar sem remover."
         operacao: "podman.remover_container"
         entrada:
-          -
-            nome: "pedido"
-            doc: "@[ambiente](CONTR-103)"
+          nome: "pedido"
+          doc: "@[ambiente](CONTR-103)"
         argumentos:
           pedido:
             caminho: "entrada.solicitacao"
@@ -131,12 +122,10 @@ FLUX-0201:
         excecoes:
           - "EXC-0201"
         erros:
-          -
-            excecao: "EXC-0201"
+          - excecao: "EXC-0201"
             guardar_em: "falhas.operacao"
             passos:
-              -
-                id: "PAS-1007"
+              - id: "PAS-1007"
                 acao: "falhar"
                 de: "ambiente"
                 para: "chamador"
@@ -147,8 +136,7 @@ FLUX-0201:
                   caminho: "falhas.operacao"
         efeitos:
           - "Parar e remover o contêiner associado à sessão."
-      -
-        id: "PAS-1009"
+      - id: "PAS-1009"
         acao: "validar"
         de: "ambiente"
         para: "ambiente"
@@ -156,10 +144,8 @@ FLUX-0201:
         condicao:
           descricao: "Resultado tem session_id textual igual ao pedido e removed booleano igual a true."
           dados:
-            -
-              caminho: "variaveis.resultado"
-            -
-              caminho: "entrada.solicitacao"
+            - caminho: "variaveis.resultado"
+            - caminho: "entrada.solicitacao"
         valido: "continuar"
         invalido:
           nome: "Resposta incompatível"
@@ -170,8 +156,7 @@ FLUX-0201:
           dados:
             literal:
               code: "invalid_dependency_result"
-      -
-        id: "PAS-1010"
+      - id: "PAS-1010"
         acao: "retornar"
         de: "ambiente"
         para: "chamador"
@@ -180,8 +165,7 @@ FLUX-0201:
         valor:
           caminho: "variaveis.resultado"
   excecoes:
-    -
-      id: "EXC-0201"
+    - id: "EXC-0201"
       nome: "FalhaRemocao"
       condicao: "Entrada inválida, autorização negada, timeout, falha do runtime ou saída incompatível."
       contrato: "@[ambiente](CONTR-105)"
