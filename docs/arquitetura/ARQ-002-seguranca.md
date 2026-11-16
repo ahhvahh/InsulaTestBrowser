@@ -31,7 +31,8 @@ Reduzir acesso de páginas hostis aos recursos do host e impedir que sessões di
 - A separação das sessões exige diretórios e volumes distintos, não apenas abas ou contextos do mesmo Chromium.
 - O acesso ao socket Podman concede controle relevante sobre recursos do usuário executor; restringir permissões e não montar em contêiner.
 - Compatibilidade entre sandbox Chromium, user namespaces e seccomp precisa ser comprovada no Debian-alvo. Não mascarar falhas com flags inseguras.
-- Os artefatos retidos exigem permissões restritas e limpeza resistente a falhas/reinícios.
+- Os artefatos retidos exigem permissões restritas e limpeza resistente a falhas/reinícios. Em `/tmp/itb/{session_id}`, usar `0700` nos diretórios, `0600` nos arquivos, sem publicação direta por HTTP ou permissões globais. Validar symlinks, IDs e propriedade dos caminhos. A API de download exige autorização por sessão/artefato.
+- HTML bruto, screenshots e texto capturado podem conter informações sensíveis; guardar somente na área de artefatos privada, com limite de bytes e expiração. Nunca armazenar seu conteúdo em steps, logs ou SQLite.
 - A configuração e os arquivos de credenciais têm acesso restrito ao usuário de serviço; os caminhos referenciados são validados e nunca montados nas sessões.
 - `podman commit` só é permitido a contêineres destinados à **preparação de imagens**, sem histórico de navegação de usuário. Antes de capturar, verificar ausência de segredos e resíduos; não considerar exclusão de arquivos após uso de segredos garantia de remoção de camadas anteriores.
 
