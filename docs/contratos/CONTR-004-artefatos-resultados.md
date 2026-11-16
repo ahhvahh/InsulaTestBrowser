@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/contratos/CONTR-004-artefatos-resultados.md); ainda não publicada.
+
 # CONTR-004 — Catálogo temporário de artefatos e resultado de sessão
 
 **Situação:** Proposto; sem implementação no serviço Go. **Versão do resultado:** `result_version: 1`. A API externa continua planejada para UDS e MessagePack.

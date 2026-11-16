@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/guias/testes/TEST-001-navegacao-starlark.md); ainda não publicada.
+
 # TEST-001 — Smoke tests Starlark: navegação e pesquisa
 
 **Situação:** testes simulados preparados; execução real com Chromium/Podman/UDS ainda pendente.

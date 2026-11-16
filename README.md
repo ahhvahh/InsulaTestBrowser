@@ -1,4 +1,3 @@
-<!-- A-BIOMA-DOC-STANDARD -->
 # InsulaTestBrowser
 
 **Serviço de automação e testes de navegação web com Chromium isolado por sessão em contêineres Podman Rootless.**
@@ -38,7 +37,7 @@ Contêineres compartilham o kernel Linux. Por isso, o nível de proteção **nã
 
 ## Documentação
 
-Consulte [docs/README.md](docs/README.md) para o índice completo do padrão A-Bioma. A referência de [configuração centralizada](docs/referencia/REF-001-configuracao.md) e a [interface de inicialização](docs/interfaces/terminal/INTF-TERM-001-inicializacao.md) detalham a descoberta do `config.yaml`.
+Veja a [estrutura documental em revisão — MIL-0001](docs/milestones/mil-0001.md), preparada na branch `docs/estrutura-a-bioma-v2`. Consulte [docs/README.md](docs/README.md) para navegar pelas propostas, especificação funcional e fluxo SDD 2.0. Os documentos anteriores permanecem como base legada. A referência de [configuração centralizada](docs/referencia/REF-001-configuracao.md) e a [interface de inicialização](docs/interfaces/terminal/INTF-TERM-001-inicializacao.md) detalham a descoberta do `config.yaml`.
 
 ## Licença
 

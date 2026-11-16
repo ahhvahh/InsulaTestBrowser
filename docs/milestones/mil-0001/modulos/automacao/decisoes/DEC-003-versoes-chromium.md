@@ -1,0 +1,41 @@
+<!-- DOC-BACKLOG -->
+<!-- DOC-MIL-0001 -->
+<!-- DOC-STATUS REFINING -->
+
+[Milestone MIL-0001](../../../../mil-0001.md). Proposta; publicação pendente.
+
+# DEC-003 — Versionamento de Chromium e reutilização de imagens
+
+**Base documental:** [DEC-003-versoes-chromium.md](../../../../../decisoes/DEC-003-versoes-chromium.md) no commit `7a13bc974cabeffe89a469b1cf106103f834f02e`. Esta proposta preserva o ID da base.
+
+**Decisão:** adotada em princípio.  
+**Implementação:** não verificada.
+
+## Contexto
+
+O serviço deve oferecer opção de atualizar Chromium para a versão estável mais recente do canal configurado ou executar uma versão específica. É necessário reproduzir testes e evitar instalação direta no host.
+
+## Decisão
+
+Distribuir Chromium dentro de imagens OCI. Oferecer seleção `latest`, `pinned` e `cached`:
+- `latest`: buscar versão estável mais atual publicada nas origens de pacotes Debian confiáveis configuradas;
+- `pinned`: exigir versão/revisão fixa resolvida por origem confiável;
+- `cached`: reutilizar imagem já validada pelo digest, inclusive sem acesso externo.
+
+Uma imagem validada pode servir a muitas sessões, mas seus perfis e volumes mutáveis nunca serão compartilhados. Além do `Containerfile`, um perfil de preparação em `config.yaml` pode iniciar um contêiner limpo, configurá-lo e salvar uma imagem OCI via `podman commit`. Nunca capturar uma sessão que navegou na internet.
+
+## Consequências
+
+- Incluir a versão/revisão real do pacote Chromium e o digest OCI no inventário.
+- A cada nova imagem, executar verificações de sandbox e isolamento antes de habilitar novas sessões.
+- Versão mais recente é relativa ao canal configurado; não garantir que seja o commit mais novo do projeto Chromium.
+- Não modificar imagem de sessão em andamento; novas imagens só atendem novas sessões.
+- Definir futuramente política de descarte para imagens sem referências ativas.
+
+## Referências
+
+- [Imagens e atualização](../../../arquitetura/ARQ-003-imagens-chromium.md)
+- [Configuração dos perfis](../../../referencia/REF-001-configuracao.md)
+- [Fluxo de preparação](../fluxos/FLUX-002-preparacao-imagem.md)
+- [Persistência](../persistencia/PERS-001-sessoes-sqlite.md)
+- [Snapshot Debian](https://snapshot.debian.org/)

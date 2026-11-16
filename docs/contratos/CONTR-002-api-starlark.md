@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/contratos/CONTR-002-api-starlark.md); ainda não publicada.
+
 # CONTR-002 — API pública para scripts Starlark
 
 **Situação:** Proposto. **Versão de contrato:** `starlark_api_version: 1` (reservada; não implementada). **34 métodos propostos**, incluindo `browser.capture_page`.

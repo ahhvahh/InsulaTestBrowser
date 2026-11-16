@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/referencia/REF-001-configuracao.md); ainda não publicada.
+
 # REF-001 — Arquivo de configuração do serviço
 
 **Situação:** Proposto. Exemplo e campos abaixo são um **contrato de configuração planejado**, não um parser ou arquivo implementado.

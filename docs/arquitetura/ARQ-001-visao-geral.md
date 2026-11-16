@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/arquitetura/ARQ-001-visao-geral.md); ainda não publicada.
+
 # ARQ-001 — Visão geral e limites do sistema
 
 **Situação:** Proposto.

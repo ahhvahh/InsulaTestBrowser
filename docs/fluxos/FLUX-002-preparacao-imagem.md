@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/fluxos/FLUX-002-preparacao-imagem.md); ainda não publicada.
+
 # FLUX-002 — Preparar e salvar uma imagem OCI reutilizável
 
 **Estado:** Proposto.  

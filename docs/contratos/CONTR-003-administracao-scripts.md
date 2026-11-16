@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/contratos/CONTR-003-administracao-scripts.md); ainda não publicada.
+
 # CONTR-003 — Administração de scripts e execuções
 
 **Situação:** Proposto; comandos externos ainda não implementados.

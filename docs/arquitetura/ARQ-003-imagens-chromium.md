@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/arquitetura/ARQ-003-imagens-chromium.md); ainda não publicada.
+
 # ARQ-003 — Imagens OCI e atualização do Chromium
 
 **Situação:** Proposto.

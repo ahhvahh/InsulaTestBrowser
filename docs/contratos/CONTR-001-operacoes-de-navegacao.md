@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/contratos/CONTR-001-operacoes-de-navegacao.md); ainda não publicada.
+
 # CONTR-001 — Operações de sessão e navegação
 
 **Situação:** Proposto. Interface sem implementação. Nomes abaixo são **candidatos lógicos**, não endpoints, métodos Go ou comandos já existentes.

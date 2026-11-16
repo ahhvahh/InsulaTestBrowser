@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../../milestones/mil-0001/modulos/automacao/interfaces/terminal/INTF-TERM-001-inicializacao.md); ainda não publicada.
+
 # INTF-TERM-001 — Inicializar o serviço com arquivo de configuração
 
 **Situação:** Proposto; os comandos são exemplos **não executáveis ainda**.

@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/guias/exemplos/EX-001-coleta-pdfs-starlark.md); ainda não publicada.
+
 # EX-001 — Varredura paginada de PDFs com Starlark
 
 **Situação:** Exemplo **não executável ainda**; depende da implementação de [CONTR-002](../contratos/CONTR-002-api-starlark.md) e da inspeção real do site. Não é comprovação dos seletores/HTML atuais do portal Tatuí.

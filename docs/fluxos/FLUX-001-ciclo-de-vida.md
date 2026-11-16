@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/fluxos/FLUX-001-ciclo-de-vida.md); ainda não publicada.
+
 # FLUX-001 — Ciclo de vida de uma sessão
 
 **Estado:** Proposto.  

@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/persistencia/PERS-001-sessoes-sqlite.md); ainda não publicada.
+
 # PERS-001 — Modelo de persistência SQLite
 
 **Situação:** Proposto. O esquema abaixo é um **modelo lógico inicial**, não uma migração existente.

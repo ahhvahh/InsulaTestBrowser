@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/guias/prompts/PROMPT-001-geracao-starlark.md); ainda não publicada.
+
 # PROMPT-001 — Gerador de scripts Starlark para sites
 
 **Situação:** Proposto; prompt reutilizável para LLMs. Objetivo: gerar um arquivo `.star` compatível com a API documentada; **não** executar site, navegador ou download durante a geração.

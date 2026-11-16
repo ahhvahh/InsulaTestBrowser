@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/arquitetura/ARQ-002-seguranca.md); ainda não publicada.
+
 # ARQ-002 — Modelo de segurança e isolamento
 
 **Situação:** Proposto. **Sandbox do Chromium:** Não verificado no ambiente-alvo.

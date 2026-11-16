@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/arquitetura/ARQ-004-motor-starlark.md); ainda não publicada.
+
 # ARQ-004 — Motor de scripts Starlark
 
 **Situação:** Proposto; nenhum motor ou método implementado neste repositório.

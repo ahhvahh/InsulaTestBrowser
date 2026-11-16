@@ -1,4 +1,7 @@
-<!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-LEGADO -->
+
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/decisoes/DEC-004-configuracao-local.md); ainda não publicada.
+
 # DEC-004 — Arquivo de configuração ao lado do binário ou em pasta informada
 
 **Decisão:** adotada como requisito documental.  

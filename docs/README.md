@@ -1,58 +1,42 @@
 <!-- A-BIOMA-DOC-STANDARD -->
+<!-- A-BIOMA-DOC-REVISADO -->
+<!-- A-BIOMA-DOC-VERSION {"plugin":"a-bioma-doc-standard","version":"2.0.0"} -->
 # Documentação — InsulaTestBrowser
 
-**Situação:** projeto em definição. As interfaces, o banco de dados e os fluxos abaixo são **propostos**, não implementados.
+**Estado do projeto:** propostas arquiteturais e testes com mocks; serviço não implementado. A arquitetura documental 2.0 está organizada para revisão na MIL-0001; a formalização completa dos comportamentos continua pendente.
 
-O InsulaTestBrowser é um serviço Go que controla o Podman Rootless para iniciar uma instância Chromium por sessão, executar operações de navegação e descartar os recursos ao término.
+## Comece por aqui
 
-## Índice
-
-| Tema | Documento |
+| Área | Documento |
 | --- | --- |
-| Contexto, componentes e implantação | [ARQ-001 — Arquitetura](arquitetura/ARQ-001-visao-geral.md) |
-| Ameaças, limites e isolamento | [ARQ-002 — Segurança](arquitetura/ARQ-002-seguranca.md) |
-| Versões e imagens OCI | [ARQ-003 — Imagens](arquitetura/ARQ-003-imagens-chromium.md) |
-| Esquema e localização de `config.yaml` | [REF-001 — Configuração](referencia/REF-001-configuracao.md) |
-| Argumento de inicialização | [INTF-TERM-001 — Inicialização](interfaces/terminal/INTF-TERM-001-inicializacao.md) |
-| Modelo de dados SQLite | [PERS-001 — Persistência](persistencia/PERS-001-sessoes-sqlite.md) |
-| Criação e encerramento da sessão | [FLUX-001 — Ciclo de vida](fluxos/FLUX-001-ciclo-de-vida.md) |
-| Preparar e salvar imagem de contêiner | [FLUX-002 — Preparação de imagem](fluxos/FLUX-002-preparacao-imagem.md) |
-| Operações da aplicação | [CONTR-001 — Contrato conceitual](contratos/CONTR-001-operacoes-de-navegacao.md) |
-| Motor de interpretação Starlark | [ARQ-004 — Motor Starlark](arquitetura/ARQ-004-motor-starlark.md) |
-| API disponível aos scripts | [CONTR-002 — API Starlark](contratos/CONTR-002-api-starlark.md) |
-| Validação e administração de execuções | [CONTR-003 — Administração](contratos/CONTR-003-administracao-scripts.md) |
-| Catálogo de arquivos temporários e resultado incremental | [CONTR-004 — Artefatos e resultados](contratos/CONTR-004-artefatos-resultados.md) |
-| Testes Starlark de navegação | [TEST-001 — Smoke tests](testes/TEST-001-navegacao-starlark.md) |
-| Exemplo de coleta de PDFs | [EX-001 — Coleta paginada](exemplos/EX-001-coleta-pdfs-starlark.md) |
-| Exemplo de resposta JSON da sessão | [EX-002 — Resultado de sessão](exemplos/EX-002-resultado-sessao.json) |
-| Prompt de geração de scripts por LLM | [PROMPT-001 — Gerador Starlark](prompts/PROMPT-001-geracao-starlark.md) |
-| Escolha de Podman Rootless | [DEC-001 — Isolamento](decisoes/DEC-001-isolamento-rootless.md) |
-| Escolha de SQLite | [DEC-002 — Persistência](decisoes/DEC-002-sqlite.md) |
-| Política de versão do Chromium | [DEC-003 — Versões](decisoes/DEC-003-versoes-chromium.md) |
-| Configuração centralizada | [DEC-004 — Configuração local](decisoes/DEC-004-configuracao-local.md) |
+| Trabalho em andamento e mapa origem/destino | [MIL-0001](milestones/mil-0001.md) |
+| Índice central e histórico | [Milestones](milestones/README.md) |
+| Módulo e contratos | [Automação](milestones/mil-0001/modulos/automacao/README.md) |
+| Especificação funcional e aceite | [Catálogo de artefatos](milestones/mil-0001/modulos/automacao/especificacoes/SPEC-001-catalogo-artefatos.md) |
+| Exemplo completo de fluxo SDD 2.0 | [Validar session_id](milestones/mil-0001/modulos/automacao/fluxos/FLUX-0003-validar-session-id.md) |
+| Arquitetura | [Visão geral proposta](milestones/mil-0001/arquitetura/ARQ-001-visao-geral.md) |
+| Histórico de requisitos | [Requisitos](requisitos/README.md) |
+| Rastreabilidade e evidências | [Matriz](requisitos/rastreabilidade.md) |
+| Validação desta revisão | [Relatório](referencia/REF-002-verificacao-documental.md) |
+
+## Organização
+
+`docs/milestones/mil-0001/` espelha os destinos finais em `docs/`: arquitetura, referencia, guias, modulos/automacao e requisitos/historias. Após conclusão validada, documentos são publicados nesses destinos e o principal da milestone permanece no histórico. Não há histórias concluídas, plano técnico aprovado ou definições compartilhadas; pastas vazias de dev/global não foram criadas.
+
+## Prefixos e catálogo
+
+| Prefixo | Conteúdo |
+| --- | --- |
+| MIL / US / SPEC | Milestone, história e especificação funcional |
+| ARQ / REF | Arquitetura e referência |
+| CONTR / FLUX | Contrato e fluxo |
+| TIP / CMP / EXC / PAS | Tipo, campo, exceção e passo definidos no SDD |
+| PERS / ENT | Relações de persistência e entidade |
+| DEC / INTF-TERM | Decisão técnica e interface CLI |
+| TEST / EX / PROMPT | Cenário de teste, exemplo e prompt |
+
+O [inventário da milestone](milestones/mil-0001.md) cataloga os documentos e bases. TIP-0001, CONTR-005/006, CMP-0001/0002, EXC-0001 e PAS-0001/0002 são definidos exclusivamente no YAML de FLUX-0003. IDs preservados em propostas têm vínculo explícito com a revisão-base; não são duas definições vigentes.
 
 ## Convenções
 
-- **Proposto:** requisito ou desenho ainda sem implementação comprovada.
-- **Implementado:** exige evidência no código e testes; nenhum componente foi confirmado neste levantamento.
-- **Não verificado:** depende de ensaio técnico, especialmente o sandbox do Chromium dentro do contêiner.
-- `DEVE`, `NÃO DEVE`, `RECOMENDA-SE` e `PODE` expressam força de requisito como convenção interna inspirada nas RFC 2119/8174.
-
-## Prefixos documentais
-
-| Prefixo | Uso |
-| --- | --- |
-| `ARQ` | Arquitetura |
-| `PERS` | Persistência |
-| `FLUX` | Fluxo |
-| `CONTR` | Contrato |
-| `DEC` | Decisão |
-| `REF` | Referência de configuração |
-| `INTF-TERM` | Interface de terminal |
-| `TEST` | Testes, cenários de aceite e evidências |
-| `EX` | Exemplo orientativo |
-| `PROMPT` | Instruções para geração assistida por LLM |
-
-## Escopo documental
-
-Este conjunto documenta decisões e propostas. Não pressupõe que já exista serviço, schema SQLite, imagem OCI, socket, comando CLI ou implementação do protocolo de navegação.
+Implementado exige evidência de código; proposto indica desenho; não verificado indica lacuna. DEVE/NÃO DEVE/RECOMENDA-SE/PODE são convenções internas inspiradas nas RFC 2119/8174. A marca 2.0 não equivale a implementação ou certificação ISO. Os originais fora da milestone são bases legadas preservadas, não a nova arquitetura publicada.
