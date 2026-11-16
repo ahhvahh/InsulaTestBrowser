@@ -1,7 +1,7 @@
 <!-- A-BIOMA-DOC-STANDARD -->
 # CONTR-002 — API pública para scripts Starlark
 
-**Situação:** Proposto. **Versão de contrato:** `starlark_api_version: 1` (reservada; não implementada).
+**Situação:** Proposto. **Versão de contrato:** `starlark_api_version: 1` (reservada; não implementada). **34 métodos propostos**, incluindo `browser.capture_page`.
 **Escopo:** chamadas disponíveis **dentro** dos arquivos `.star`. Para comandos externos, consultar [CONTR-003](CONTR-003-administracao-scripts.md).
 
 ## Convenções obrigatórias
@@ -78,7 +78,15 @@ A aplicação não interpreta diretamente JavaScript arbitrário passado por scr
 
 Em `download`, informar **exatamente um** entre `url` e `element_ref`. O serviço valida redirects, tamanho e tipo real do arquivo (PDF com assinatura `%PDF-` e verificações adicionais); nome/extensão/MIME de resposta não bastam. `find_downloads` não garante que um link retornará um PDF; links de visualização, redirecionamentos, blobs e geradores JS exigem tratamento pelo adaptador. Se o navegador não identificar download como concluído, retornar erro, não inventar `artifact_id`.
 
-## E. `artifacts` — consulta de artefatos (1 método)
+## E. `browser` — captura de HTML e texto (1 método)
+
+| Método e parâmetros | Ação | Retorno principal |
+| --- | --- | --- |
+| `capture_page(session_id, tab_id=None, formats=["html","text"])` | Captura HTML bruto e/ou texto extraído da página atual em arquivos privados; valida formatos, tamanhos e cotas | `{artifacts: [{artifact_id, kind, mime_type}]}` |
+
+A captura pode ocorrer também após navegação, conforme `artifacts.capture_on_navigation` no `config.yaml`. A criação do artefato registra `step` e evento incremental, independentemente de `job.emit_result`. Ver [CONTR-004](CONTR-004-artefatos-resultados.md).
+
+## F. `artifacts` — consulta de artefatos (1 método)
 
 | Método e parâmetros | Ação | Retorno principal |
 | --- | --- | --- |
@@ -86,7 +94,7 @@ Em `download`, informar **exatamente um** entre `url` e `element_ref`. O serviç
 
 O script não recebe caminho absoluto de arquivo. Transferência dos bytes ao cliente externo exigirá contrato próprio; **não é função Starlark**.
 
-## F. `job` — execução e checkpoints (6 métodos)
+## G. `job` — execução e checkpoints (6 métodos)
 
 | Método e parâmetros | Ação | Retorno principal |
 | --- | --- | --- |
@@ -132,7 +140,7 @@ O exemplo é ilustrativo, não uma leitura verificada do DOM atual do Google. N�
 
 ## Condições de aceite
 
-1. Todos os 33 métodos são expostos por um catálogo versionado de assinaturas; parâmetro desconhecido gera erro determinístico.
+1. Todos os 34 métodos são expostos por um catálogo versionado de assinaturas; parâmetro desconhecido gera erro determinístico.
 2. Saídas de inspeção têm limites, sinalizador `truncated` e representação estável de ausências.
 3. `element_ref` de outra sessão, aba ou revisão não pode ser acionado.
 4. Testes cobrem formulário, lista, paginação por link/JS, download PDF e comportamento sem resultados.
@@ -142,6 +150,7 @@ O exemplo é ilustrativo, não uma leitura verificada do DOM atual do Google. N�
 ## Referências
 - [Arquitetura do motor](../arquitetura/ARQ-004-motor-starlark.md)
 - [Comandos administrativos](CONTR-003-administracao-scripts.md)
+- [Catálogo e resultado incremental](CONTR-004-artefatos-resultados.md)
 - [Prompt gerador](../prompts/PROMPT-001-geracao-starlark.md)
 - [Exemplo de coleta](../exemplos/EX-001-coleta-pdfs-starlark.md)
 - [Operações gerais](CONTR-001-operacoes-de-navegacao.md)

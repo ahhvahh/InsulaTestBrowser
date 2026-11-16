@@ -42,12 +42,34 @@ Persistir o estado operacional mínimo para gerenciar contêineres, rastrear ima
 | --- | --- | --- |
 | `id` | TEXT | Chave primária |
 | `session_id` | TEXT | Referência a `sessions.id` |
-| `kind` | TEXT | `screenshot`, `download`, `log` |
-| `storage_key` | TEXT | Identificador relativo ao armazenamento privado, nunca caminho arbitrário |
+| `execution_id` | TEXT NULL | Execução Starlark que originou o artefato |
+| `step_id` | TEXT NULL | Step que criou o artefato |
+| `kind` | TEXT | `screenshot`, `download`, `html`, `text`, `log` |
+| `storage_key` | TEXT | Caminho relativo a `/tmp/itb/{session_id}` (não aceitar caminho fornecido pelo cliente) |
+| `mime_type` | TEXT | Tipo validado do conteúdo |
+| `size_bytes` | INTEGER | Tamanho físico, não negativo |
+| `sha256` | TEXT | Hash do arquivo pronto, verificado antes de publicar |
+| `status` | TEXT | `writing`, `ready`, `failed`, `expired` |
 | `created_at` | TEXT | UTC |
 | `purge_after` | TEXT | Instante de expurgo do arquivo |
 
-O schema definitivo, as restrições `CHECK`, índices, regras de exclusão por FK e migrações ficam para implementação e testes. Recomenda-se índices em `sessions(status)`, `sessions(purge_after)` e `artifacts(purge_after)`.
+### `session_steps`
+
+| Campo | Tipo SQLite | Regra |
+| --- | --- | --- |
+| `id` | TEXT | Chave primária do step |
+| `session_id` | TEXT | Referência a `sessions.id` |
+| `execution_id` | TEXT NULL | Execução associada |
+| `sequence` | INTEGER | Ordem monotônica por sessão; `UNIQUE(session_id,sequence)` |
+| `operation` | TEXT | Método/ação: `browser.navigate`, `browser.click`, `browser.download` etc. |
+| `status` | TEXT | `started`, `completed`, `failed`, `cancelled` |
+| `started_at` | TEXT | UTC |
+| `finished_at` | TEXT NULL | UTC |
+| `metadata` | TEXT NULL | JSON sanitizado sem valores de formulários, tokens ou conteúdo sensível |
+
+A lista de arquivos e passos alimenta `/tmp/itb/{session_id}/result.json`; os eventos incrementais também são registrados em `events.jsonl`. O banco mantém somente metadados, não bytes de screenshots, PDFs ou HTML bruto. Consulte [CONTR-004](../contratos/CONTR-004-artefatos-resultados.md).
+
+O schema definitivo, as restrições `CHECK`, índices, regras de exclusão por FK e migrações ficam para implementação e testes. Recomenda-se índices em `sessions(status)`, `sessions(purge_after)`, `artifacts(session_id,status)`, `artifacts(purge_after)` e `session_steps(session_id,sequence)`.
 
 ## Regras de consistência
 
@@ -56,7 +78,7 @@ O schema definitivo, as restrições `CHECK`, índices, regras de exclusão por 
 - Usar transações curtas e idempotência em operações de criação/encerramento.
 - Após reinício, consultar Podman e reconciliar `container_id` e estados. O SQLite não substitui a inspeção real do runtime.
 - Não registrar cookies, tokens, senhas, HTML de páginas nem conteúdo de downloads no banco.
-- Na retenção, remover primeiro dados sensíveis e artefatos físicos, depois os registros relacionados, sem perder rastreabilidade de falhas de exclusão.
+- Na retenção, remover primeiro dados sensíveis e artefatos físicos, depois os registros relacionados, sem perder rastreabilidade de falhas de exclusão. Encerrar Chromium não exclui automaticamente artefatos ainda retidos; `/tmp` é volátil e não oferece garantia de durabilidade.
 
 ## Retenção proposta
 
@@ -65,6 +87,8 @@ O schema definitivo, as restrições `CHECK`, índices, regras de exclusão por 
 | Perfil, cookies e cache | 0m após encerramento | Remover imediatamente |
 | Screenshots | 1h | Parametrizável |
 | Downloads | 1h | Parametrizável |
+| HTML bruto/textos | 1h | Parametrizável; conteúdo potencialmente sensível |
+| `result.json`/`events.jsonl` | 1h | Retenção alinhada aos demais artefatos da sessão |
 | Logs | 1h | Parametrizável; sem dados sensíveis |
 | Metadados de sessão encerrada | 24h | Parametrizável |
 

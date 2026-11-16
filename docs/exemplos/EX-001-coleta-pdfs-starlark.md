@@ -85,6 +85,10 @@ def executar():
 executar()
 ```
 
+## Resultado incremental da execução
+
+O serviço Go deverá registrar automaticamente steps de navegação, abertura de abas, inspeções, cliques, downloads e encerramento. Downloads recebem `artifact_id` e são salvos em `/tmp/itb/{session_id}/downloads/`. Se `artifacts.capture_on_navigation=true`, HTML bruto e texto das páginas acessadas também serão salvos em `pages/html/` e `pages/text/`. O `result.json` consolida `session_id`, `steps` e `data.artifacts` e `events.jsonl` agrega eventos incrementais. Ao encerrar a sessão, os arquivos continuam disponíveis até a expiração. Consulte [CONTR-004](../contratos/CONTR-004-artefatos-resultados.md). **Essas operações são propostas e não estão implementadas.**
+
 ## Premissas e cuidados
 - Este script faz **descoberta heurística**; se os registros estiverem em modal, tabela ou links indiretos, adaptar a seleção usando dados reais de `get_dom`, `get_links` e `inspect_lists`.
 - `MAX_PAGES` é limite de segurança, não número de páginas observado.

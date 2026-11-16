@@ -30,7 +30,8 @@ O Chromium será distribuído na imagem OCI e **não precisa estar instalado no 
 - Carregar `config.yaml` ao lado do executável ou na pasta indicada por `--config-dir`; centralizar banco SQLite, acesso, referências a credenciais e perfis de contêiner.
 - Instanciar sessões a partir de imagem validada ou preparar um contêiner novo e salvar sua imagem para reutilização, sem capturar dados de navegação.
 - Persistir estados mínimos em SQLite e reconciliar sessões com os contêineres reais após reinícios.
-- Expirar perfis imediatamente após o encerramento e aplicar retenção configurável a screenshots, downloads, logs e metadados.
+- Expirar perfis imediatamente após o encerramento e aplicar retenção configurável a screenshots, downloads, HTML/texto, logs e metadados.
+- Catalogar artefatos por sessão em `/tmp/itb/{session_id}`, com `events.jsonl`, `result.json` (`session_id`, `steps`, `data`) e futura leitura por `artifact_id` em UDS. Diretórios permanecem privados; disponível a clientes autorizados, não ao público sem autenticação.
 - Aplicar limites de recursos e políticas de acesso à rede; exigir sandbox Chromium funcional.
 
 Contêineres compartilham o kernel Linux. Por isso, o nível de proteção **não equivale ao de uma VM**, e a compatibilidade do sandbox Chromium com Podman Rootless deverá ser testada.

@@ -12,6 +12,17 @@
 | 03-google-pesquisa.star | https://www.google.com | Inspeção de formulário, preenchimento do campo de busca e envio; fallback de URL fixa |
 | 04-youtube-filtro.star | https://www.youtube.com/results?search_query=golang | Pesquisa de golang, descoberta do botão Filtros e tentativa de selecionar Vídeos |
 
+## Casos adicionais previstos — catálogo de sessão
+
+As operações de diretório, captura e persistência **ainda não possuem teste executável**, e deverão ser cobertas pelo serviço Go quando implementado:
+
+- Ao criar sessão, preparar `/tmp/itb/{session_id}` com `0700`, subpastas e arquivos `0600`, sem aceitar `../` ou symlinks.
+- Registrar `steps` de navegação, inspeção de formulário, clique, screenshot e download, inclusive falhas, sem valores de campos nem segredos.
+- Capturar HTML bruto e texto em `pages/html` e `pages/text` quando a configuração autorizar, com IDs/limites/sha256.
+- Manter `result.json` íntegro a cada atualização e `events.jsonl` com eventos ordenados; comparar com [EX-002](../exemplos/EX-002-resultado-sessao.json).
+- Consultar `get_script_results` por cursor enquanto executa; `read_artifact` depois de `end_session`; negar após expiração ou sem autorização.
+- Testar limites de armazenamento, cancelamento, limpeza e recuperação após reinício.
+
 ## Executar
 
 Na raiz do repositório: bash tests/starlark/run.sh
@@ -25,5 +36,6 @@ Se não encontrar lista ou botão, o script emite list_not_found ou filter_butto
 ## Referências
 - [API Starlark](../contratos/CONTR-002-api-starlark.md)
 - [Administração](../contratos/CONTR-003-administracao-scripts.md)
+- [Catálogo e resposta por sessão](../contratos/CONTR-004-artefatos-resultados.md)
 - [Motor](../arquitetura/ARQ-004-motor-starlark.md)
 - [Scripts e runner](../../tests/starlark/README.md)

@@ -66,6 +66,14 @@ scripts:                       # proposta de configuração do executor; não im
   max_dom_nodes: 500
   allow_inline_source: false
 
+artifacts:                     # proposta; armazenamento temporário e captura incremental
+  root_dir: /tmp/itb
+  capture_on_navigation: true   # salva HTML e texto depois de navegação bem-sucedida
+  max_page_bytes: 2097152
+  max_total_bytes_per_session: 104857600
+  max_artifacts_per_session: 1000
+  max_chunk_bytes: 1048576
+
 sessions:
   max_concurrent: 5
   max_duration: 30m
@@ -91,6 +99,7 @@ sessions:
 | `containers.profiles.*.mounts` | Política declarativa de montagens; nunca compartilhar perfil Chromium, segredos ou dados de sessão |
 | `containers.profiles.*.save_image` | Autorizar snapshot OCI do contêiner de preparação depois de sanitização e validação |
 | `sessions` | Concorrência, limite de execução e prazos de retenção |
+| `artifacts` | Raiz `/tmp/itb`, captura automática de HTML/texto, cotas por sessão e limite de leitura binária por chunk; diretórios privados e leitura somente por clientes autorizados |
 | `scripts` | Regras do executor Starlark: habilitação, versão da API, limites de passos/tempo/páginas/downloads/DOM e permissão de fonte inline (propostas) |
 
 O formato definitivo de `container-setup.yaml`, regras de montagem, restrições de clientes e extensões de autenticação serão especificados quando a interface estiver pronta. **Não existe execução arbitrária de shell implícita a partir do YAML de exemplo.**
@@ -102,7 +111,7 @@ Os limites efetivos do script DEVEM ser os mais restritivos entre `scripts`, per
 - O arquivo de configuração e a pasta de segredos DEVEM ter permissões restritas ao usuário do serviço. A validação de propriedade/permissões deve impedir exposição de credenciais; recomendação inicial: `0600` para arquivos de segredos.
 - Senhas e tokens não devem ser registrados diretamente no `config.yaml`; usar **referências a arquivos privados** ou mecanismo equivalente de segredos.
 - Não serializar credenciais em SQLite, logs ou imagens OCI. Arquivos apontados por `access.credentials` **não** serão montados nos contêineres.
-- Caminhos indicados para banco, segredos e artefatos devem ser normalizados e validados; impedir escrita/leitura fora das áreas autorizadas.
+- Caminhos indicados para banco, segredos e artefatos devem ser normalizados e validados; impedir escrita/leitura fora das áreas autorizadas. `/tmp/itb/{session_id}` não é diretório publicamente legível: `0700` para diretórios, `0600` para arquivos. Leitura externa pelo contrato [CONTR-004](../contratos/CONTR-004-artefatos-resultados.md).
 - Contêineres de preparação e de navegação são papéis diferentes: captura de imagem é autorizada apenas para preparação, não para uma sessão que acessou sites.
 - A política de imagens e sua validação ficam em [ARQ-003](../arquitetura/ARQ-003-imagens-chromium.md); os detalhes de isolamento ficam em [ARQ-002](../arquitetura/ARQ-002-seguranca.md).
 

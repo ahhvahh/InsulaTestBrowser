@@ -1,0 +1,98 @@
+{
+  "result_version": 1,
+  "execution_id": "exec_exemplo",
+  "session_id": "sess_exemplo",
+  "status": "finished",
+  "revision": 7,
+  "updated_at": "2026-11-16T14:00:10Z",
+  "steps": [
+    {
+      "step_id": "step_001",
+      "sequence": 1,
+      "operation": "browser.navigate",
+      "status": "completed",
+      "tab_id": "main",
+      "url": "https://example.org/atos",
+      "started_at": "2026-11-16T14:00:00Z",
+      "finished_at": "2026-11-16T14:00:01Z",
+      "artifact_ids": [
+        "art_html001",
+        "art_text001"
+      ]
+    },
+    {
+      "step_id": "step_002",
+      "sequence": 2,
+      "operation": "browser.get_forms",
+      "status": "completed",
+      "tab_id": "main",
+      "started_at": "2026-11-16T14:00:02Z",
+      "finished_at": "2026-11-16T14:00:02Z",
+      "artifact_ids": []
+    },
+    {
+      "step_id": "step_003",
+      "sequence": 3,
+      "operation": "browser.click",
+      "status": "completed",
+      "tab_id": "main",
+      "started_at": "2026-11-16T14:00:03Z",
+      "finished_at": "2026-11-16T14:00:04Z",
+      "artifact_ids": []
+    },
+    {
+      "step_id": "step_004",
+      "sequence": 4,
+      "operation": "browser.download",
+      "status": "completed",
+      "tab_id": "main",
+      "started_at": "2026-11-16T14:00:05Z",
+      "finished_at": "2026-11-16T14:00:08Z",
+      "artifact_ids": [
+        "art_pdf001"
+      ]
+    }
+  ],
+  "data": {
+    "artifacts": [
+      {
+        "artifact_id": "art_html001",
+        "step_id": "step_001",
+        "kind": "html",
+        "storage_key": "pages/html/art_html001.html",
+        "mime_type": "text/html",
+        "size_bytes": 1200,
+        "sha256": "PLACEHOLDER_SHA256_SUBSTITUIR",
+        "status": "ready"
+      },
+      {
+        "artifact_id": "art_text001",
+        "step_id": "step_001",
+        "kind": "text",
+        "storage_key": "pages/text/art_text001.txt",
+        "mime_type": "text/plain; charset=utf-8",
+        "size_bytes": 350,
+        "sha256": "PLACEHOLDER_SHA256_SUBSTITUIR",
+        "status": "ready"
+      },
+      {
+        "artifact_id": "art_pdf001",
+        "step_id": "step_004",
+        "kind": "download",
+        "storage_key": "downloads/art_pdf001.pdf",
+        "mime_type": "application/pdf",
+        "size_bytes": 24000,
+        "sha256": "PLACEHOLDER_SHA256_SUBSTITUIR",
+        "status": "ready"
+      }
+    ],
+    "results": [
+      {
+        "result_id": "result_001",
+        "data": {
+          "documents_found": 1
+        }
+      }
+    ]
+  }
+}

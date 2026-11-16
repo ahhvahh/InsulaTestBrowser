@@ -6,15 +6,18 @@
 ## Objetivo e transporte
 Operações solicitadas por cliente autorizado ao serviço Go, via socket Unix (UDS). **MessagePack é a serialização proposta**, ainda dependente de validação de compatibilidade; estruturas JSON abaixo são apenas forma legível do payload. Esses comandos **não** são funções chamadas dentro de scripts Starlark.
 
-## Comandos externos (5)
+## Comandos externos (8)
 
 | Comando | Entrada | Ação e retorno |
 | --- | --- | --- |
 | `validate_script` | `script_id` **ou** `source`, `api_version` | Analisa sintaxe, referências permitidas e política; `{valid, diagnostics, api_version}` |
-| `run_script` | `script_id` **ou** `source`, `parameters`, `limits` opcionais | Autoriza, valida e inicia execução; `{execution_id, status}` |
-| `get_script_status` | `execution_id` | Retorna `status`, `current_page`, `documents_count`, `last_error` e horários |
+| `run_script` | `script_id` **ou** `source`, `parameters`, `limits` opcionais | Autoriza, valida e inicia execução; `{execution_id, session_id: null, status}`. O ID da sessão fica disponível após `browser.create_session` |
+| `get_script_status` | `execution_id` | Retorna `session_id`, `status`, `current_page`, `documents_count`, `last_step`, `artifacts_count`, `last_error` e horários |
 | `cancel_script` | `execution_id` | Solicita cancelamento e limpeza; `{execution_id, status}` |
-| `get_script_results` | `execution_id`, `cursor` opcional, `limit` opcional | Consulta resultados persistidos; `{items, next_cursor}` |
+| `get_script_results` | `execution_id`, `cursor` opcional, `limit` opcional | Consulta steps e artefatos produzidos; `{execution_id,session_id,status,steps,data,next_cursor}` | 
+| `list_artifacts` | `session_id`, `cursor`/`limit`/`kind` opcionais | Catálogo paginável `{artifacts,next_cursor}` |
+| `get_artifact_info` | `artifact_id` | Metadados e prazo de expiração do arquivo, sem conteúdo |
+| `read_artifact` | `artifact_id`, `offset=0`, `limit` opcional | Trecho binário MessagePack `{artifact_id,offset,bytes,eof}` sujeito a limite |
 
 `source` contém texto Starlark, limitado em tamanho e autorizado **somente** para clientes com permissão de administrar scripts. `script_id` aponta para script cadastrado pelo mecanismo confiável de instalação/catalogação, ainda a definir. Enviar fonte diretamente **não** confere permissão para executá-la.
 
@@ -31,7 +34,7 @@ Operações solicitadas por cliente autorizado ao serviço Go, via socket Unix (
 ```
 
 ```json
-{"execution_id": "exec_123", "status": "queued"}
+{"execution_id": "exec_123", "session_id": null, "status": "queued"}
 ```
 
 Identificadores e valores são exemplos, não resultados reais.
@@ -42,7 +45,9 @@ Identificadores e valores são exemplos, não resultados reais.
 Executar em processo auxiliar com limite de RAM/CPU; cada chamada de navegação tem timeout e cancelamento. Limites efetivos são a interseção mais restritiva entre configuração administrativa, perfil, permissão de usuário e pedido. Não aceitar que o script eleve seus próprios limites.
 
 ## Persistência e retomada
-Persistir, em migração SQLite futura: `script_executions` (`id`, `script_hash`, `api_version`, `status`, `created_at`, `started_at`, `ended_at`, `last_error`, `limits` sem segredo), `script_checkpoints` (`execution_id`, `page`, `metadata`, `updated_at`) e `script_results` (`execution_id`, `ordinal`, `document_key`, `artifact_id`, `metadata`). Tabelas ainda **não existem**. `script_hash` vincula o checkpoint à versão exata do algoritmo e parâmetros relevantes.
+Persistir, em migração SQLite futura: `session_steps` e `artifacts` conforme [PERS-001](../persistencia/PERS-001-sessoes-sqlite.md), além de `script_executions` (`id`, `script_hash`, `api_version`, `status`, `created_at`, `started_at`, `ended_at`, `last_error`, `limits` sem segredo), `script_checkpoints` (`execution_id`, `page`, `metadata`, `updated_at`) e `script_results` (`execution_id`, `ordinal`, `document_key`, `artifact_id`, `metadata`). Tabelas ainda **não existem**. `script_hash` vincula o checkpoint à versão exata do algoritmo e parâmetros relevantes.
+
+Os arquivos temporários ficam em `/tmp/itb/{session_id}` e incluem `events.jsonl` e `result.json`. O `result.json` tem `session_id`, `steps` e `data.artifacts`/`data.results`; os resultados da API são incrementais e consultáveis inclusive depois do encerramento da sessão, até a expiração. `artifact_id` é opaco; a leitura deve validar autorização e integridade (checksum), sem acesso direto aos caminhos. [CONTR-004](CONTR-004-artefatos-resultados.md) define o esquema completo.
 
 Na recuperação: nova sessão Chromium, redescoberta do DOM e reaplicação da navegação até a última página confirmada; nunca presumir que abas ou referências do DOM persistam. Chaves idempotentes impedem rebaixar o mesmo PDF. Retomada de script alterado exige nova execução ou migração explícita.
 
@@ -57,5 +62,6 @@ Validar scripts com funções inexistentes, parâmetros errados, loop muito gran
 ## Referências
 - [API Starlark](CONTR-002-api-starlark.md)
 - [Arquitetura de execução](../arquitetura/ARQ-004-motor-starlark.md)
-- [Persistência existente](../persistencia/PERS-001-sessoes-sqlite.md)
+- [Modelo de persistência proposto](../persistencia/PERS-001-sessoes-sqlite.md)
+- [Catálogo e resultado incremental](CONTR-004-artefatos-resultados.md)
 - [Segurança](../arquitetura/ARQ-002-seguranca.md)
