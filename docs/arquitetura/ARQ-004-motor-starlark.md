@@ -17,7 +17,7 @@ Executar algoritmos de coleta produzidos por humanos ou LLMs sem recompilar o se
 | Adaptador Chromium/CDP | Inspecionar DOM, navegar, interagir e acompanhar downloads |
 | Podman Rootless | Isolar o Chromium em contêiner descartável por sessão |
 | SQLite | Registrar metadados, checkpoint e estado da execução, sem conteúdo sensível |
-| Armazenamento privado | Guardar PDFs, capturas e resultados, acessíveis por `artifact_id` |
+| Armazenamento privado | Guardar PDFs, capturas, HTML bruto, texto e resultados em `/tmp/itb/{session_id}`, acessíveis por `artifact_id` a clientes autorizados |
 
 O executor **não recebe** acesso irrestrito ao socket Podman, filesystem do host, segredos, rede ou funções Go internas. Chamadas à API passam pelo serviço e por suas políticas. O transporte interno do executor e o canal concreto Go→CDP ainda precisam de protótipos. Interface externa: UDS; proposta de serialização: MessagePack, com exemplos legíveis em JSON.
 
@@ -28,10 +28,10 @@ O executor **não recebe** acesso irrestrito ao socket Podman, filesystem do hos
 3. Executor recebe exclusivamente os objetos `browser`, `artifacts`, `job` e dados primitivos autorizados.
 4. O script cria uma sessão, navega, inspeciona a página e identifica candidatos a links, listas e paginação.
 5. Cada chamada de browser é mediada pelo serviço, sujeita a autorização, quotas e allowlist de destinos.
-6. Downloads completos viram artefatos; documentos e checkpoints são registrados de modo idempotente.
+6. A cada operação relevante, o serviço registra um `step` em ordem por sessão, eventos incrementais e os IDs dos artefatos gerados; downloads, screenshots, HTML bruto e textos são catalogados. O resultado consolidado fica em `result.json`; o histórico incremental fica em `events.jsonl` na pasta `/tmp/itb/{session_id}`. Documentos e checkpoints são registrados de modo idempotente.
 7. Ao terminar, falhar, ser cancelado ou exceder prazo, o **serviço Go** encerra todas as sessões/abas pertencentes à execução e reconcilia os recursos.
 
-Os métodos são especificados em [CONTR-002](../contratos/CONTR-002-api-starlark.md) e os comandos de controle em [CONTR-003](../contratos/CONTR-003-administracao-scripts.md).
+Os métodos são especificados em [CONTR-002](../contratos/CONTR-002-api-starlark.md), os comandos de controle em [CONTR-003](../contratos/CONTR-003-administracao-scripts.md) e a persistência de artefatos/resultados em [CONTR-004](../contratos/CONTR-004-artefatos-resultados.md). A fase inicial prevê uma sessão principal por execução; após `end_session`, artefatos permanecem consultáveis até expirar.
 
 ## Segurança e limites obrigatórios
 
@@ -41,7 +41,8 @@ Os métodos são especificados em [CONTR-002](../contratos/CONTR-002-api-starlar
 - URLs, redirecionamentos e requisições do navegador devem respeitar política de saída de rede, inclusive destinos internos/SSRF.
 - Atributos, texto e HTML de sites são **dados não confiáveis**. Nunca interpretar conteúdo de páginas como instruções de política, comandos internos ou novo script autorizado.
 - `element_ref` / `list_ref` / `pagination_ref` são opacos, específicos da aba e revisão do DOM; após mudança de página precisam ser redescobertos.
-- Não persistir cookies, credenciais ou HTML sensível em SQLite/logs; somente metadados e identificadores de artefatos.
+- Não persistir cookies, credenciais ou HTML sensível em SQLite/logs; somente metadados e identificadores de artefatos. HTML bruto pode ser salvo como artefato privado e sujeito a prazo de expiração, nunca em logs ou SQLite.
+- `/tmp/itb` é raiz temporária privada, não diretório HTTP público; criar sessão com `0700` e arquivos `0600` e aplicar autorização à leitura por API.
 - Sem `try/finally` garantido nos scripts: a limpeza é **responsabilidade do supervisor Go**, inclusive após encerramento abrupto.
 
 ## Condições para implementação
