@@ -19,7 +19,7 @@ Isolar cada navegação Chromium em um contêiner Podman Rootless separado, coma
 | Contêiner de preparação | Aplicar instruções aprovadas e permitir captura de imagem OCI reutilizável, sem navegar em sites de usuários | Contêiner isolado e temporário |
 | Chromium | Abrir páginas e executar operações por Chrome DevTools Protocol (CDP) | Dentro de cada contêiner |
 | SQLite | Estado, vínculos com contêineres/imagens, tempos e retenção | Host; nunca montado no contêiner |
-| Artefatos | Capturas, downloads e logs, sob políticas de expiração | Diretório privado, fora do perfil |
+| Artefatos | Capturas, downloads, HTML bruto, texto extraído, `steps`, `result.json` e `events.jsonl`, com expiração e leitura por `artifact_id` | `/tmp/itb/{session_id}`, privado e fora do perfil |
 
 ```mermaid
 flowchart TD
@@ -37,7 +37,7 @@ A imagem base é reutilizável; o perfil Chromium, os diretórios de downloads e
 
 ## Execução de scripts (proposta)
 
-O serviço poderá executar arquivos Starlark `.star` que chamam os módulos `browser`, `artifacts` e `job`, sem conceder acesso geral ao sistema operacional. A LLM gera o script a partir de uma URL e de inspeções reais do DOM; não controla diretamente o Podman nem participa da execução. Limites, cancelamento e limpeza pertencem ao serviço Go. Consulte [ARQ-004](ARQ-004-motor-starlark.md), [CONTR-002](../contratos/CONTR-002-api-starlark.md) e [PROMPT-001](../prompts/PROMPT-001-geracao-starlark.md). Nenhum desses componentes está implementado.
+O serviço poderá executar arquivos Starlark `.star` que chamam os módulos `browser`, `artifacts` e `job`, sem conceder acesso geral ao sistema operacional. A LLM gera o script a partir de uma URL e de inspeções reais do DOM; não controla diretamente o Podman nem participa da execução. Limites, cancelamento e limpeza pertencem ao serviço Go. Consulte [ARQ-004](ARQ-004-motor-starlark.md), [CONTR-002](../contratos/CONTR-002-api-starlark.md), [CONTR-004](../contratos/CONTR-004-artefatos-resultados.md) e [PROMPT-001](../prompts/PROMPT-001-geracao-starlark.md). Nenhum desses componentes está implementado.
 
 ## Limites e interfaces
 
