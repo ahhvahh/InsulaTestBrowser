@@ -103,7 +103,7 @@ Um resultado consolidado por sessão, inclusive enquanto `status=running`. Na ve
 }
 ```
 
-Exemplo **ilustrativo**, sem arquivos efetivamente capturados. `data.results` recebe os dados estruturados publicados por `job.emit_result`; `data.artifacts` contém os arquivos físicos. O `artifact_id` é a chave canônica; `storage_key` é relativo à pasta de sessão e informativo, **não** um argumento de leitura/escrita.
+Exemplo **ilustrativo**, sem arquivos efetivamente capturados. Veja também o [arquivo JSON de resposta EX-002](../exemplos/EX-002-resultado-sessao.json), com navegação, inspeção de formulários, clique e download. `data.results` recebe os dados estruturados publicados por `job.emit_result`; `data.artifacts` contém os arquivos físicos. O `artifact_id` é a chave canônica; `storage_key` é relativo à pasta de sessão e informativo, **não** um argumento de leitura/escrita.
 
 ### Catálogo de eventos e steps
 - Uma chamada Starlark relevante gera um `step` registrado **pelo serviço Go**, não manualmente pelo script: criação de sessão, navegação, abertura/fechamento de aba, inspeção de listas/formulários, seleção de campos, clique, paginação, screenshot, captura de página e download.
