@@ -1,6 +1,6 @@
 <!-- A-BIOMA-DOC-LEGADO -->
 
-> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/decisoes/DEC-001-isolamento-rootless.md); ainda não publicada.
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/ambiente/decisoes/DEC-001-isolamento-rootless.md); ainda não publicada.
 
 # DEC-001 — Podman Rootless e Chromium por sessão
 

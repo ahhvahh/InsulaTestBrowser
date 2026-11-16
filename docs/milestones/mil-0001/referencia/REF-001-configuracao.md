@@ -131,4 +131,4 @@ Os limites efetivos do script DEVEM ser os mais restritivos entre `scripts`, per
 - [Interface de inicialização](../modulos/automacao/interfaces/terminal/INTF-TERM-001-inicializacao.md)
 - [Arquitetura](../arquitetura/ARQ-001-visao-geral.md)
 - [Preparação de imagens](../modulos/automacao/fluxos/FLUX-002-preparacao-imagem.md)
-- [Decisão de configuração](../modulos/automacao/decisoes/DEC-004-configuracao-local.md)
+- [Decisão de configuração](../modulos/sessoes/decisoes/DEC-004-configuracao-local.md)

@@ -24,3 +24,9 @@ A estrutura de refinamento foi aplicada aos 21 arquivos de conteúdo existentes 
 ## Publicação
 
 Documentos de trabalho permanecem propostos na [MIL-0001](../milestones/mil-0001.md). Não houve publicação nos destinos finais, exclusão de legados ou merge. O fluxo tipado é proposta documental; a validação do YAML não comprova implementação nem aprovação funcional.
+
+## Segunda rodada — arquitetura hexagonal
+
+Foram acrescentados cinco módulos, doze fluxos e doze documentos de contratos de porta, além do catálogo de tipos global. Sessões coordena provisionamento com compensação e navegação com histórico. Foram redistribuídas as entidades e decisões propostas, mantendo links e IDs. ARQ-005 registra a exceção local de interfaces públicas autorizada na conversa.
+
+Validação documental: schema 2.0, resolução de referências, IDs novos sem colisão, links relativos, marcadores e chamadas permitidas. A sintaxe dos diagramas foi revisada textualmente, sem renderização. Não foram executados testes da aplicação. Lacunas dos contratos agregados e operações restantes permanecem descritas na milestone.

@@ -142,7 +142,7 @@ Critérios canônicos na [SPEC-001](../especificacoes/SPEC-001-catalogo-artefato
 - [ARQ-004 — Motor Starlark](../../../arquitetura/ARQ-004-motor-starlark.md)
 - [CONTR-002 — API Starlark](CONTR-002-api-starlark.md)
 - [CONTR-003 — Administração](CONTR-003-administracao-scripts.md)
-- [PERS-001 — Persistência](../persistencia/PERS-001-sessoes-sqlite.md)
+- [PERS-001 — Persistência](../../persistencia/persistencia/PERS-001-sessoes-sqlite.md)
 - [ARQ-002 — Segurança](../../../arquitetura/ARQ-002-seguranca.md)
 
 ## Pendências da migração comportamental

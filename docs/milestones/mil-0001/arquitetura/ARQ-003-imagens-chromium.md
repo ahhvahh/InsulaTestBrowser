@@ -53,10 +53,10 @@ Guardar no SQLite identificação, digest, versão efetiva, origem, momento de c
 
 ## Referências
 
-- [Modelo SQLite](../modulos/automacao/persistencia/PERS-001-sessoes-sqlite.md)
+- [Modelo SQLite](../modulos/persistencia/persistencia/PERS-001-sessoes-sqlite.md)
 - [Configuração e perfis](../referencia/REF-001-configuracao.md)
 - [Fluxo de preparação](../modulos/automacao/fluxos/FLUX-002-preparacao-imagem.md)
 - [Podman commit](https://docs.podman.io/en/latest/markdown/podman-commit.1.html)
-- [Decisão de versões](../modulos/automacao/decisoes/DEC-003-versoes-chromium.md)
+- [Decisão de versões](../modulos/ambiente/decisoes/DEC-003-versoes-chromium.md)
 - [Documentação Podman](https://docs.podman.io/en/stable/markdown/podman.1.html)
 - [Snapshots Debian](https://snapshot.debian.org/)

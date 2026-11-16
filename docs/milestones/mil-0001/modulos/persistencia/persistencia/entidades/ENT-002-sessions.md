@@ -14,7 +14,7 @@
 | `id` | TEXT | Chave primária opaca |
 | `image_id` | TEXT | Referência a `images.id` |
 | `container_id` | TEXT NULL | ID real retornado pelo Podman, único quando presente |
-| `status` | TEXT | Estado da sessão; ver [fluxo](../../fluxos/FLUX-001-ciclo-de-vida.md) |
+| `status` | TEXT | Estado da sessão; ver [fluxo](../../../automacao/fluxos/FLUX-001-ciclo-de-vida.md) |
 | `created_at` | TEXT | UTC, obrigatório |
 | `started_at` | TEXT NULL | UTC |
 | `ended_at` | TEXT NULL | UTC |

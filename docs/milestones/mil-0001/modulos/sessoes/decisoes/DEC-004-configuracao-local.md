@@ -32,5 +32,5 @@ A configuração deve incluir banco SQLite, acesso, referências seguras a crede
 ## Referências
 
 - [Configuração de referência](../../../referencia/REF-001-configuracao.md)
-- [Inicialização CLI](../interfaces/terminal/INTF-TERM-001-inicializacao.md)
-- [Preparação de imagens](../fluxos/FLUX-002-preparacao-imagem.md)
+- [Inicialização CLI](../../automacao/interfaces/terminal/INTF-TERM-001-inicializacao.md)
+- [Preparação de imagens](../../automacao/fluxos/FLUX-002-preparacao-imagem.md)

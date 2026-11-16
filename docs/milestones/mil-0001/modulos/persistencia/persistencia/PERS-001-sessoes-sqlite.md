@@ -32,7 +32,7 @@ Campos definidos em [ENT-003](entidades/ENT-003-artifacts.md).
 
 Campos definidos em [ENT-004](entidades/ENT-004-session-steps.md).
 
-A lista de arquivos e passos alimenta `/tmp/itb/{session_id}/result.json`; os eventos incrementais também são registrados em `events.jsonl`. O banco mantém somente metadados, não bytes de screenshots, PDFs ou HTML bruto. Consulte [CONTR-004](../contratos/CONTR-004-artefatos-resultados.md).
+A lista de arquivos e passos alimenta `/tmp/itb/{session_id}/result.json`; os eventos incrementais também são registrados em `events.jsonl`. O banco mantém somente metadados, não bytes de screenshots, PDFs ou HTML bruto. Consulte [CONTR-004](../../automacao/contratos/CONTR-004-artefatos-resultados.md).
 
 O schema definitivo, as restrições `CHECK`, índices, regras de exclusão por FK e migrações ficam para implementação e testes. Recomenda-se índices em `sessions(status)`, `sessions(purge_after)`, `artifacts(session_id,status)`, `artifacts(purge_after)` e `session_steps(session_id,sequence)`.
 
@@ -61,9 +61,9 @@ Os valores são **padrões candidatos**, não configurações já implementadas.
 
 ## Referências
 
-- [Ciclo de vida](../fluxos/FLUX-001-ciclo-de-vida.md)
+- [Ciclo de vida](../../automacao/fluxos/FLUX-001-ciclo-de-vida.md)
 - [Decisão SQLite](../decisoes/DEC-002-sqlite.md)
 - [Configuração local](../../../referencia/REF-001-configuracao.md)
-- [Fluxo de preparação](../fluxos/FLUX-002-preparacao-imagem.md)
+- [Fluxo de preparação](../../automacao/fluxos/FLUX-002-preparacao-imagem.md)
 - [SQLite WAL](https://www.sqlite.org/wal.html)
 - [SQLite — isolamento](https://www.sqlite.org/isolation.html)

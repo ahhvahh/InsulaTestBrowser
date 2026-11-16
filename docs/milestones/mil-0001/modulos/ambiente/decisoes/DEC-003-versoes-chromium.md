@@ -36,6 +36,6 @@ Uma imagem validada pode servir a muitas sessões, mas seus perfis e volumes mut
 
 - [Imagens e atualização](../../../arquitetura/ARQ-003-imagens-chromium.md)
 - [Configuração dos perfis](../../../referencia/REF-001-configuracao.md)
-- [Fluxo de preparação](../fluxos/FLUX-002-preparacao-imagem.md)
-- [Persistência](../persistencia/PERS-001-sessoes-sqlite.md)
+- [Fluxo de preparação](../../automacao/fluxos/FLUX-002-preparacao-imagem.md)
+- [Persistência](../../persistencia/persistencia/PERS-001-sessoes-sqlite.md)
 - [Snapshot Debian](https://snapshot.debian.org/)

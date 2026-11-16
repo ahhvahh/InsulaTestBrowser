@@ -10,6 +10,11 @@
 
 **Situação:** Proposto; nenhum motor ou método implementado neste repositório.
 
+
+## Organização modular desta revisão
+
+As fronteiras, propriedade dos dados e chamadas permitidas estão em [ARQ-005](ARQ-005-arquitetura-hexagonal.md). Os componentes abaixo são a visão de implantação; sua divisão documental segue os cinco módulos da arquitetura hexagonal.
+
 ## Objetivo
 Executar algoritmos de coleta produzidos por humanos ou LLMs sem recompilar o serviço Go. A LLM **gera** o arquivo `.star`; o InsulaTestBrowser **valida e executa** o arquivo mediante política autorizada. A LLM não participa do laço de navegação em tempo de execução.
 

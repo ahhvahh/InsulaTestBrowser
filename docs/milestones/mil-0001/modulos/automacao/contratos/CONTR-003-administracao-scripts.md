@@ -52,7 +52,7 @@ Identificadores e valores são exemplos, não resultados reais.
 Executar em processo auxiliar com limite de RAM/CPU; cada chamada de navegação tem timeout e cancelamento. Limites efetivos são a interseção mais restritiva entre configuração administrativa, perfil, permissão de usuário e pedido. Não aceitar que o script eleve seus próprios limites.
 
 ## Persistência e retomada
-Persistir, em migração SQLite futura: `session_steps` e `artifacts` conforme [PERS-001](../persistencia/PERS-001-sessoes-sqlite.md), além de `script_executions` (`id`, `script_hash`, `api_version`, `status`, `created_at`, `started_at`, `ended_at`, `last_error`, `limits` sem segredo), `script_checkpoints` (`execution_id`, `page`, `metadata`, `updated_at`) e `script_results` (`execution_id`, `ordinal`, `document_key`, `artifact_id`, `metadata`). Tabelas ainda **não existem**. `script_hash` vincula o checkpoint à versão exata do algoritmo e parâmetros relevantes.
+Persistir, em migração SQLite futura: `session_steps` e `artifacts` conforme [PERS-001](../../persistencia/persistencia/PERS-001-sessoes-sqlite.md), além de `script_executions` (`id`, `script_hash`, `api_version`, `status`, `created_at`, `started_at`, `ended_at`, `last_error`, `limits` sem segredo), `script_checkpoints` (`execution_id`, `page`, `metadata`, `updated_at`) e `script_results` (`execution_id`, `ordinal`, `document_key`, `artifact_id`, `metadata`). Tabelas ainda **não existem**. `script_hash` vincula o checkpoint à versão exata do algoritmo e parâmetros relevantes.
 
 Os arquivos temporários ficam em `/tmp/itb/{session_id}` e incluem `events.jsonl` e `result.json`. O `result.json` tem `session_id`, `steps` e `data.artifacts`/`data.results`; os resultados da API são incrementais e consultáveis inclusive depois do encerramento da sessão, até a expiração. `artifact_id` é opaco; a leitura deve validar autorização e integridade (checksum), sem acesso direto aos caminhos. [CONTR-004](CONTR-004-artefatos-resultados.md) define o esquema completo.
 
@@ -69,7 +69,7 @@ Validar scripts com funções inexistentes, parâmetros errados, loop muito gran
 ## Referências
 - [API Starlark](CONTR-002-api-starlark.md)
 - [Arquitetura de execução](../../../arquitetura/ARQ-004-motor-starlark.md)
-- [Modelo de persistência proposto](../persistencia/PERS-001-sessoes-sqlite.md)
+- [Modelo de persistência proposto](../../persistencia/persistencia/PERS-001-sessoes-sqlite.md)
 - [Catálogo e resultado incremental](CONTR-004-artefatos-resultados.md)
 - [Segurança](../../../arquitetura/ARQ-002-seguranca.md)
 

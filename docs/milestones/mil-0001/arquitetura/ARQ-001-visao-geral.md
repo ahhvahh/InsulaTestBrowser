@@ -10,6 +10,11 @@
 
 **Situação:** Proposto.
 
+
+## Organização modular desta revisão
+
+As fronteiras, propriedade dos dados e chamadas permitidas estão em [ARQ-005](ARQ-005-arquitetura-hexagonal.md). Os componentes abaixo são a visão de implantação; sua divisão documental segue os cinco módulos da arquitetura hexagonal.
+
 ## Objetivo
 
 Isolar cada navegação Chromium em um contêiner Podman Rootless separado, comandado por um serviço Go. O serviço fará o gerenciamento das imagens, sessões, tarefas e prazo de retenção; o SQLite guardará apenas metadados operacionais.
@@ -66,6 +71,6 @@ Linux/Debian 13, Go, Podman em modo rootless e runtime OCI compatível; usuário
 - [Imagens Chromium](ARQ-003-imagens-chromium.md)
 - [Configuração centralizada](../referencia/REF-001-configuracao.md)
 - [Preparação de imagem](../modulos/automacao/fluxos/FLUX-002-preparacao-imagem.md)
-- [Persistência](../modulos/automacao/persistencia/PERS-001-sessoes-sqlite.md)
+- [Persistência](../modulos/persistencia/persistencia/PERS-001-sessoes-sqlite.md)
 - [Fluxo de sessão](../modulos/automacao/fluxos/FLUX-001-ciclo-de-vida.md)
 - [Documentação do Podman](https://docs.podman.io/en/stable/markdown/podman.1.html)

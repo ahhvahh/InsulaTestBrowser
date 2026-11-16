@@ -79,7 +79,7 @@ O trecho Serviço Go → Chromium representa um **canal conceitual**. O transpor
 
 ## Referências
 
-- [Modelo SQLite](../persistencia/PERS-001-sessoes-sqlite.md)
+- [Modelo SQLite](../../persistencia/persistencia/PERS-001-sessoes-sqlite.md)
 - [Arquivo de configuração](../../../referencia/REF-001-configuracao.md)
 - [Preparação de imagem](FLUX-002-preparacao-imagem.md)
 - [Contrato de operações](../contratos/CONTR-001-operacoes-de-navegacao.md)

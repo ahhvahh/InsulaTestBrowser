@@ -1,6 +1,6 @@
 <!-- A-BIOMA-DOC-LEGADO -->
 
-> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/decisoes/DEC-003-versoes-chromium.md); ainda não publicada.
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/ambiente/decisoes/DEC-003-versoes-chromium.md); ainda não publicada.
 
 # DEC-003 — Versionamento de Chromium e reutilização de imagens
 

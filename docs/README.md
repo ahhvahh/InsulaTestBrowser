@@ -11,7 +11,7 @@
 | --- | --- |
 | Trabalho em andamento e mapa origem/destino | [MIL-0001](milestones/mil-0001.md) |
 | Índice central e histórico | [Milestones](milestones/README.md) |
-| Módulo e contratos | [Automação](milestones/mil-0001/modulos/automacao/README.md) |
+| Módulo e contratos | [Módulos hexagonais](milestones/mil-0001/modulos/README.md) |
 | Especificação funcional e aceite | [Catálogo de artefatos](milestones/mil-0001/modulos/automacao/especificacoes/SPEC-001-catalogo-artefatos.md) |
 | Exemplo completo de fluxo SDD 2.0 | [Validar session_id](milestones/mil-0001/modulos/automacao/fluxos/FLUX-0003-validar-session-id.md) |
 | Arquitetura | [Visão geral proposta](milestones/mil-0001/arquitetura/ARQ-001-visao-geral.md) |
@@ -19,9 +19,13 @@
 | Rastreabilidade e evidências | [Matriz](requisitos/rastreabilidade.md) |
 | Validação desta revisão | [Relatório](referencia/REF-002-verificacao-documental.md) |
 
+## Arquitetura da MIL-0001
+
+[ARQ-005 — fronteiras, portas e chamadas](milestones/mil-0001/arquitetura/ARQ-005-arquitetura-hexagonal.md) apresenta a arquitetura hexagonal e a divisão de responsabilidades.
+
 ## Organização
 
-`docs/milestones/mil-0001/` espelha os destinos finais em `docs/`: arquitetura, referencia, guias, modulos/automacao e requisitos/historias. Após conclusão validada, documentos são publicados nesses destinos e o principal da milestone permanece no histórico. Não há histórias concluídas, plano técnico aprovado ou definições compartilhadas; pastas vazias de dev/global não foram criadas.
+`docs/milestones/mil-0001/` espelha os destinos finais em `docs/`: arquitetura, referencia, guias, modulos por responsabilidade, global e requisitos/historias. Após conclusão validada, documentos são publicados nesses destinos e o principal da milestone permanece no histórico. Tipos primitivos compartilhados ficam em global. Não há histórias concluídas nem plano de implementação aprovado.
 
 ## Prefixos e catálogo
 

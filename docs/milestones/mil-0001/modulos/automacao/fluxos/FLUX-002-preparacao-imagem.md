@@ -57,7 +57,7 @@ O `commit` pode armazenar segredos incorporados ao filesystem, inclusive em cama
 
 - [Configuração](../../../referencia/REF-001-configuracao.md)
 - [Imagens Chromium](../../../arquitetura/ARQ-003-imagens-chromium.md)
-- [Persistência](../persistencia/PERS-001-sessoes-sqlite.md)
+- [Persistência](../../persistencia/persistencia/PERS-001-sessoes-sqlite.md)
 - [Segurança](../../../arquitetura/ARQ-002-seguranca.md)
 - [Podman commit](https://docs.podman.io/en/latest/markdown/podman-commit.1.html)
 - [Podman save](https://docs.podman.io/en/latest/markdown/podman-save.1.html)

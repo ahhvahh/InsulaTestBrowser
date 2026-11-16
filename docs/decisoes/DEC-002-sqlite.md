@@ -1,6 +1,6 @@
 <!-- A-BIOMA-DOC-LEGADO -->
 
-> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/automacao/decisoes/DEC-002-sqlite.md); ainda não publicada.
+> Base preservada. [Proposta reorganizada na MIL-0001](../milestones/mil-0001/modulos/persistencia/decisoes/DEC-002-sqlite.md); ainda não publicada.
 
 # DEC-002 — SQLite para gerenciamento de sessões
 
